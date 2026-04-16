@@ -1,0 +1,119 @@
+@{
+    ViewData["Title"] = "Complete Your Booking";
+    Layout = "_DashboardLayout";
+}
+
+<div class="booking-wrapper">
+
+    <!-- Back Button -->
+    <div class="booking-topbar">
+        <a href="/property/1" class="detail-back-btn">← Back to Property</a>
+    </div>
+
+    <h1 class="booking-main-title">Complete Your Booking</h1>
+
+    <!-- Two Column Layout -->
+    <div class="booking-layout">
+
+        <!-- LEFT: Form -->
+        <div class="booking-left">
+
+            <!-- Hero Image -->
+            <div class="booking-hero">
+                <img src="/images/bg-login.png" alt="Property" class="booking-hero-img" />
+                <div class="booking-hero-overlay">
+                    <p class="booking-hero-unit">Unit # 34</p>
+                    <h2 class="booking-hero-name">Luxurious Beach Villa</h2>
+                </div>
+            </div>
+
+            <!-- Form Card -->
+            <div class="booking-form-card">
+
+                <h3 class="booking-form-title">Select Dates</h3>
+
+                <div class="booking-dates-row">
+                    <div class="booking-field">
+                        <label class="booking-label">Check-in</label>
+                        <input type="date" id="checkin" class="booking-input" />
+                    </div>
+                    <div class="booking-field">
+                        <label class="booking-label">Check-out</label>
+                        <input type="date" id="checkout" class="booking-input" />
+                    </div>
+                </div>
+
+                <div class="booking-field" style="margin-top:18px;">
+                    <label class="booking-label">Number of Guests</label>
+                    <input type="number" id="guests" class="booking-input" value="2" min="1" max="8" />
+                    <p class="booking-hint">Maximum 8 guests</p>
+                </div>
+
+                <button class="booking-check-btn" onclick="checkAvailability()">Check Availability</button>
+
+                <div class="booking-available" id="availMsg" style="display:none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="#2e7d32" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                    </svg>
+                    <div>
+                        <strong>Available!</strong>
+                        <p>This property is available for your selected dates.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RIGHT: Price Summary -->
+        <div class="booking-right">
+            <div class="booking-summary-card">
+                <h3 class="booking-summary-title">Price Summary</h3>
+
+                <div class="booking-summary-row">
+                    <span class="booking-summary-label" id="nightsLabel">₱15,000 x 13 nights</span>
+                    <span class="booking-summary-amount" id="nightsTotal">₱195,000</span>
+                </div>
+                <div class="booking-summary-row">
+                    <span class="booking-summary-label">Service fee</span>
+                    <span class="booking-summary-amount">₱0</span>
+                </div>
+
+                <div class="booking-summary-divider"></div>
+
+                <div class="booking-summary-row booking-total-row">
+                    <span class="booking-total-label">Total</span>
+                    <span class="booking-total-amount" id="totalAmount">₱195,000</span>
+                </div>
+
+                <a href="#" class="booking-proceed-btn">Proceed to Payment</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    function checkAvailability() {
+        const checkin = document.getElementById('checkin').value;
+        const checkout = document.getElementById('checkout').value;
+        const msg = document.getElementById('availMsg');
+
+        if (checkin && checkout && checkin < checkout) {
+            const d1 = new Date(checkin);
+            const d2 = new Date(checkout);
+            const nights = Math.round((d2 - d1) / (1000 * 60 * 60 * 24));
+            const pricePerNight = 15000;
+            const total = pricePerNight * nights;
+
+            document.getElementById('nightsLabel').textContent = `₱${pricePerNight.toLocaleString()} x ${nights} night${nights !== 1 ? 's' : ''}`;
+            document.getElementById('nightsTotal').textContent = `₱${total.toLocaleString()}`;
+            document.getElementById('totalAmount').textContent = `₱${total.toLocaleString()}`;
+            msg.style.display = 'flex';
+        } else {
+            msg.style.display = 'none';
+            alert('Please select valid check-in and check-out dates.');
+        }
+    }
+</script>
+}

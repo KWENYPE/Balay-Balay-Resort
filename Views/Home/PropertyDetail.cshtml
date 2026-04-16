@@ -1,0 +1,174 @@
+@{
+    ViewData["Title"] = "Property Detail";
+    Layout = "_DashboardLayout";
+}
+
+<div class="detail-wrapper">
+
+    <!-- Back Button top-right -->
+    <div class="detail-topbar">
+        <a href="/browse-properties" class="detail-back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
+            Back to Property
+        </a>
+    </div>
+
+    <!-- Hero Image -->
+    <div class="detail-img-wrap">
+        <img src="/images/bg-login.png" alt="Property" class="detail-img" />
+        <div class="detail-img-tag">MODERN BALAI</div>
+        <button class="detail-img-arrow left">&#8249;</button>
+        <button class="detail-img-arrow right">&#8250;</button>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="detail-layout">
+
+        <!-- LEFT: Main Content -->
+        <div class="detail-main">
+
+            <!-- Title Block -->
+            <div class="detail-title-block">
+                <p class="detail-unit-label">Unit # 34</p>
+                <h1 class="detail-title">Luxurious Beach Villa</h1>
+                <div class="detail-title-meta">
+                    <span><img src="/images/icons/Beds.png" class="meta-icon" /> 3 Beds</span>
+                    <span><img src="/images/icons/Baths.png" class="meta-icon" /> 1 Baths</span>
+                    <span><img src="/images/icons/Guests.png" class="meta-icon" /> 4 Guests</span>
+                </div>
+            </div>
+
+            <!-- About -->
+            <div class="detail-card">
+                <h2 class="detail-section-title">About this Unit</h2>
+                <p class="detail-description">
+                    Experience paradise in this stunning beachfront villa, where every detail is designed for comfort, relaxation, and unforgettable coastal living. Wake up to breathtaking panoramic ocean views, enjoy the soothing sound of waves just steps away, and unwind in your private infinity pool overlooking the sea. With direct beach access, you can stroll along the shoreline at any time of day, whether it's for a peaceful morning walk, a sunset escape, or a refreshing swim in crystal-clear waters.
+                    <br /><br />
+                    Inside, the villa offers spacious, elegantly designed interiors with modern amenities and luxurious finishes that create a perfect blend of style and comfort. Whether you're lounging on the terrace, dining al fresco with a sea breeze, or simply relaxing as the sun sets over the horizon, this beachfront retreat promises an unforgettable escape from everyday life.
+                </p>
+            </div>
+
+            <!-- Amenities -->
+            <div class="detail-card">
+                <h2 class="detail-section-title">Amenities</h2>
+                <div class="detail-amenities">
+                    <div class="amenity-item">
+                        <img src="/images/Wifi.png" class="amenity-icon" alt="WiFi" /> WiFi
+                    </div>
+                    <div class="amenity-item">
+                        <img src="/images/Air Conditioning.png" class="amenity-icon" alt="Air Conditioning" /> Air Conditioning
+                    </div>
+                    <div class="amenity-item">
+                        <img src="/images/Beach Access.png" class="amenity-icon" alt="Beach Access" /> Beach Access
+                    </div>
+                    <div class="amenity-item">
+                        <img src="/images/Kitchen.png" class="amenity-icon" alt="Kitchen" /> Kitchen
+                    </div>
+                    <div class="amenity-item">
+                        <img src="/images/Parking.png" class="amenity-icon" alt="Parking" /> Parking
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT: Booking + Reviews -->
+        <div class="detail-sidebar">
+
+            <!-- Price + Booking -->
+            <div class="detail-booking-card">
+                <div class="detail-price">₱15,000 <span>/night</span></div>
+                <div class="detail-rating-row">
+                    <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star-empty">★</span>
+                    <span class="detail-rating-num">4.5</span>
+                    <span class="detail-rating-count">(234)</span>
+                </div>
+                <a href="/booking/1" class="detail-book-btn">Book Now →</a>
+                <div class="detail-perks">
+                    <div class="detail-perk">✓ Free cancellation before 24h</div>
+                    <div class="detail-perk">✓ Instant booking confirmation</div>
+                    <div class="detail-perk">✓ 24/7 customer support</div>
+                </div>
+            </div>
+
+            <!-- Give Feedback -->
+            <div class="detail-feedback-card">
+                <h3 class="detail-section-title">Give Feedback</h3>
+                <div class="feedback-stars">
+                    <span class="feedback-star" data-val="1">★</span>
+                    <span class="feedback-star" data-val="2">★</span>
+                    <span class="feedback-star" data-val="3">★</span>
+                    <span class="feedback-star" data-val="4">★</span>
+                    <span class="feedback-star" data-val="5">★</span>
+                </div>
+                <div class="feedback-input-row">
+                    <input type="text" class="feedback-input" placeholder="Comment" />
+                    <button class="feedback-submit-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Reviews -->
+            <div class="detail-reviews-card">
+                <div class="reviews-overall">
+                    <span class="reviews-label">Ratings</span>
+                    <div class="reviews-score-row">
+                        <span class="reviews-star-big">★</span>
+                        <span class="reviews-score">4.9</span>
+                        <span class="reviews-count">(234)</span>
+                    </div>
+                </div>
+
+                <div class="reviews-list">
+                    <div class="review-item">
+                        <div class="review-avatar">MC</div>
+                        <div class="review-body">
+                            <div class="review-name">Michelle Mercado</div>
+                            <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+                            <p class="review-text">Amazing stay! The villa was spotless and the view was breathtaking.</p>
+                        </div>
+                    </div>
+                    <div class="review-item">
+                        <div class="review-avatar">JR</div>
+                        <div class="review-body">
+                            <div class="review-name">Juan Reyes</div>
+                            <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+                            <p class="review-text">Perfect getaway for the whole family. Very spacious and clean!</p>
+                        </div>
+                    </div>
+                    <div class="review-item">
+                        <div class="review-avatar">AL</div>
+                        <div class="review-body">
+                            <div class="review-name">Ana Lim</div>
+                            <div class="review-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+                            <p class="review-text">Loved every moment. The beach access made it extra special.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    const stars = document.querySelectorAll('.feedback-star');
+    stars.forEach((star, i) => {
+        star.addEventListener('mouseover', () => stars.forEach((s, j) => s.classList.toggle('active', j <= i)));
+        star.addEventListener('mouseleave', () => {
+            const sel = [...stars].findLastIndex(s => s.classList.contains('selected'));
+            stars.forEach((s, j) => s.classList.toggle('active', j <= sel));
+        });
+        star.addEventListener('click', () => {
+            stars.forEach((s, j) => { s.classList.toggle('selected', j <= i); s.classList.toggle('active', j <= i); });
+        });
+    });
+</script>
+}

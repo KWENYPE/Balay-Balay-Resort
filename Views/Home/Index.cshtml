@@ -1,0 +1,192 @@
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "_DashboardLayout";
+}
+
+<!-- Hero Banner -->
+<div class="dash-hero">
+    <div class="dash-hero-bg"></div>
+    <img src="/images/Dashboard-bg.png" alt="" class="dash-hero-upper" />
+    <div class="dash-hero-content">
+        <div class="dash-hero-left">
+            <div class="dash-hero-avatar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                </svg>
+            </div>
+            <div class="dash-hero-info">
+                <h1 class="dash-hero-title">Welcome Back!</h1>
+                <div class="dash-hero-name">Dainne Chua</div>
+                <div class="dash-hero-badge">Guest</div>
+            </div>
+        </div>
+        <a href="#" class="dash-hero-edit-btn">
+            Edit Profile
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+            </svg>
+        </a>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="dash-content">
+
+    <!-- Left: Recommended Properties -->
+    <div>
+        <h2 class="dash-section-title">Recommended Vacation Rental for You</h2>
+        <div class="property-grid">
+
+            <div class="property-card">
+                <div class="property-card-img">
+                    <img src="/images/bg-login.png" alt="Luxurious Beach Villa" />
+                </div>
+                <div class="property-card-body">
+                    <div class="property-card-location">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                        </svg>
+                        Unit Number
+                    </div>
+                    <div class="property-card-name">Luxurious Beach Villa</div>
+                    <div class="property-card-meta">
+                        <span><img src="/images/icons/Beds.png" class="meta-icon" /> 3 Beds</span>
+                        <span><img src="/images/icons/Baths.png" class="meta-icon" /> 2 Baths</span>
+                        <span><img src="/images/icons/Guests.png" class="meta-icon" /> 4 Guests</span>
+                    </div>
+                    <div class="property-card-footer">
+                        <div class="property-card-rating">
+                            <span class="star">★</span> 4.9 <span style="color:#aaa;font-weight:400">(234)</span>
+                        </div>
+                        <div class="property-card-price">₱15,000 <span>/night</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="property-card">
+                <div class="property-card-img">
+                    <img src="/images/bg-login.png" alt="Luxurious Beach Villa" />
+                </div>
+                <div class="property-card-body">
+                    <div class="property-card-location">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                        </svg>
+                        Unit Number
+                    </div>
+                    <div class="property-card-name">Luxurious Beach Villa</div>
+                    <div class="property-card-meta">
+                        <span><img src="/images/icons/Beds.png" class="meta-icon" /> 2 Beds</span>
+                        <span><img src="/images/icons/Baths.png" class="meta-icon" /> 1 Bath</span>
+                        <span><img src="/images/icons/Guests.png" class="meta-icon" /> 3 Guests</span>
+                    </div>
+                    <div class="property-card-footer">
+                        <div class="property-card-rating">
+                            <span class="star">★</span> 4.9 <span style="color:#aaa;font-weight:400">(234)</span>
+                        </div>
+                        <div class="property-card-price">₱15,000 <span>/night</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="property-card">
+                <div class="property-card-img">
+                    <img src="/images/bg-login.png" alt="Mountain View Cabin" />
+                </div>
+                <div class="property-card-body">
+                    <div class="property-card-location">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                        </svg>
+                        Unit Number
+                    </div>
+                    <div class="property-card-name">Mountain View Cabin</div>
+                    <div class="property-card-meta">
+                        <span><img src="/images/icons/Beds.png" class="meta-icon" /> 4 Beds</span>
+                        <span><img src="/images/icons/Baths.png" class="meta-icon" /> 2 Baths</span>
+                        <span><img src="/images/icons/Guests.png" class="meta-icon" /> 6 Guests</span>
+                    </div>
+                    <div class="property-card-footer">
+                        <div class="property-card-rating">
+                            <span class="star">★</span> 4.5 <span style="color:#aaa;font-weight:400">(189)</span>
+                        </div>
+                        <div class="property-card-price">₱12,000 <span>/night</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="property-card">
+                <div class="property-card-img">
+                    <img src="/images/bg-login.png" alt="City Center Studio" />
+                </div>
+                <div class="property-card-body">
+                    <div class="property-card-location">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                        </svg>
+                        Unit Number
+                    </div>
+                    <div class="property-card-name">City Center Studio</div>
+                    <div class="property-card-meta">
+                        <span><img src="/images/icons/Beds.png" class="meta-icon" /> 1 Bed</span>
+                        <span><img src="/images/icons/Baths.png" class="meta-icon" /> 1 Bath</span>
+                        <span><img src="/images/icons/Guests.png" class="meta-icon" /> 2 Guests</span>
+                    </div>
+                    <div class="property-card-footer">
+                        <div class="property-card-rating">
+                            <span class="star">★</span> 4.3 <span style="color:#aaa;font-weight:400">(97)</span>
+                        </div>
+                        <div class="property-card-price">₱8,500 <span>/night</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Right: Recent Bookings -->
+    <div>
+        <h2 class="dash-section-title">Recent Bookings</h2>
+        <div class="bookings-list">
+
+            <div class="booking-card">
+                <div class="booking-card-img">
+                    <img src="/images/bg-login.png" alt="Luxurious Beachfront Villa" />
+                </div>
+                <div class="booking-card-body">
+                    <div class="booking-card-name">Luxurious Beachfront Villa</div>
+                    <div class="booking-card-dates">2024-01-19 — 2024-01-26</div>
+                    <div class="booking-card-price">₱75,000</div>
+                    <span class="booking-card-status confirmed">Confirmed</span>
+                </div>
+            </div>
+
+            <div class="booking-card">
+                <div class="booking-card-img">
+                    <img src="/images/bg-login.png" alt="Modern Mountain Retreat" />
+                </div>
+                <div class="booking-card-body">
+                    <div class="booking-card-name">Modern Mountain Retreat</div>
+                    <div class="booking-card-dates">2024-02-01 — 2024-02-05</div>
+                    <div class="booking-card-price">₱25,000</div>
+                    <span class="booking-card-status confirmed">Confirmed</span>
+                </div>
+            </div>
+
+            <div class="booking-card">
+                <div class="booking-card-img">
+                    <img src="/images/bg-login.png" alt="Luxurious Beachfront Villa" />
+                </div>
+                <div class="booking-card-body">
+                    <div class="booking-card-name">Luxurious Beachfront Villa</div>
+                    <div class="booking-card-dates">2024-03-10 — 2024-03-15</div>
+                    <div class="booking-card-price">₱75,000</div>
+                    <span class="booking-card-status confirmed">Confirmed</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

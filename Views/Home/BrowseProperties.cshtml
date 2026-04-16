@@ -1,0 +1,121 @@
+@{
+    ViewData["Title"] = "Browse Properties";
+    Layout = "_DashboardLayout";
+}
+
+<div class="browse-wrapper">
+
+    <!-- Search Bar -->
+    <div class="browse-search-bar">
+        <div class="browse-search-input-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" class="browse-search-icon">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/>
+            </svg>
+            <input type="text" class="browse-search-input" placeholder="Search Properties" />
+        </div>
+        <button class="browse-filter-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Count -->
+    <div class="browse-count-wrap">
+        <p class="browse-count">4 Units Available</p>
+        <p class="browse-subtitle">Find your perfect vacation retreat</p>
+    </div>
+
+    <!-- Property Grid -->
+    <div class="browse-grid">
+
+        <a href="/property/1" class="property-card-link">
+            <div class="property-card">
+                <div class="property-card-img">
+                    <img src="/images/bg-login.png" alt="Luxurious Beach Villa" />
+                    <div class="property-card-tag">BAHAY KUBO MODERN DESIGN</div>
+                </div>
+                <div class="property-card-body">
+                    <div class="property-card-location">Unit Number</div>
+                    <div class="property-card-name">Luxurious Beach Villa</div>
+                    <div class="property-card-meta">
+                        <span><img src="/images/icons/Beds.png" class="meta-icon" /> 3 Beds</span>
+                        <span><img src="/images/icons/Baths.png" class="meta-icon" /> 2 Baths</span>
+                        <span><img src="/images/icons/Guests.png" class="meta-icon" /> 4 Guests</span>
+                    </div>
+                    <div class="property-card-footer">
+                        <div class="property-card-rating"><span class="star">★</span> 4.9 <span style="color:#aaa;font-weight:400">(234)</span></div>
+                        <div class="property-card-price">₱15,000 <span>/night</span></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/property/2" class="property-card-link">
+            <div class="property-card">
+                <div class="property-card-img">
+                    <img src="/images/bg-login.png" alt="Luxurious Beach Villa" />
+                    <div class="property-card-tag">MANDALAY BALAI</div>
+                </div>
+                <div class="property-card-body">
+                    <div class="property-card-location">Unit Number</div>
+                    <div class="property-card-name">Luxurious Beach Villa</div>
+                    <div class="property-card-meta">
+                        <span><img src="/images/icons/Beds.png" class="meta-icon" /> 2 Beds</span>
+                        <span><img src="/images/icons/Baths.png" class="meta-icon" /> 1 Bath</span>
+                        <span><img src="/images/icons/Guests.png" class="meta-icon" /> 3 Guests</span>
+                    </div>
+                    <div class="property-card-footer">
+                        <div class="property-card-rating"><span class="star">★</span> 4.9 <span style="color:#aaa;font-weight:400">(234)</span></div>
+                        <div class="property-card-price">₱15,000 <span>/night</span></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/property/3" class="property-card-link">
+            <div class="property-card">
+                <div class="property-card-img">
+                    <img src="/images/bg-login.png" alt="Mountain View Cabin" />
+                    <div class="property-card-tag">MOUNTAIN VIEW CABIN</div>
+                </div>
+                <div class="property-card-body">
+                    <div class="property-card-location">Unit Number</div>
+                    <div class="property-card-name">Mountain View Cabin</div>
+                    <div class="property-card-meta">
+                        <span><img src="/images/icons/Beds.png" class="meta-icon" /> 4 Beds</span>
+                        <span><img src="/images/icons/Baths.png" class="meta-icon" /> 2 Baths</span>
+                        <span><img src="/images/icons/Guests.png" class="meta-icon" /> 6 Guests</span>
+                    </div>
+                    <div class="property-card-footer">
+                        <div class="property-card-rating"><span class="star">★</span> 4.5 <span style="color:#aaa;font-weight:400">(189)</span></div>
+                        <div class="property-card-price">₱12,000 <span>/night</span></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+        <a href="/property/4" class="property-card-link">
+            <div class="property-card">
+                <div class="property-card-img">
+                    <img src="/images/bg-login.png" alt="City Center Studio" />
+                    <div class="property-card-tag">CITY CENTER STUDIO</div>
+                </div>
+                <div class="property-card-body">
+                    <div class="property-card-location">Unit Number</div>
+                    <div class="property-card-name">City Center Studio</div>
+                    <div class="property-card-meta">
+                        <span><img src="/images/icons/Beds.png" class="meta-icon" /> 1 Bed</span>
+                        <span><img src="/images/icons/Baths.png" class="meta-icon" /> 1 Bath</span>
+                        <span><img src="/images/icons/Guests.png" class="meta-icon" /> 2 Guests</span>
+                    </div>
+                    <div class="property-card-footer">
+                        <div class="property-card-rating"><span class="star">★</span> 4.3 <span style="color:#aaa;font-weight:400">(97)</span></div>
+                        <div class="property-card-price">₱8,500 <span>/night</span></div>
+                    </div>
+                </div>
+            </div>
+        </a>
+
+    </div>
+</div>
