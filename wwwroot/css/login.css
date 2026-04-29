@@ -1,0 +1,384 @@
+/* =============================================
+   RentGala — Login Page Styles
+   Background image: /images/bg-login.jpg
+   ============================================= */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.login-body {
+    min-height: 100vh;
+    background-image: url('/images/bg-login.png');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: relative;
+}
+
+/* Dark warm overlay over the background */
+.login-body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(
+        135deg,
+        rgba(30, 15, 5, 0.60) 0%,
+        rgba(60, 30, 10, 0.50) 50%,
+        rgba(20, 10, 5, 0.65) 100%
+    );
+    z-index: 0;
+}
+
+/* ---- Wrapper ---- */
+.login-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 16px;
+    min-height: 100vh;
+}
+
+/* ---- Card ---- */
+.login-card {
+    width: 100%;
+    max-width: 340px;
+    background: linear-gradient(
+        160deg,
+        rgba(80, 45, 15, 0.35) 0%,
+        rgba(55, 30, 8, 0.40) 60%,
+        rgba(40, 20, 5, 0.45) 100%
+    );
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: none;
+    border-radius: 16px;
+    padding: 0 26px 24px;
+    overflow: visible;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+    position: relative;
+}
+
+/* ---- Logo ---- */
+.login-logo {
+    position: relative;
+    width: calc(100% + 52px);
+    margin-left: -26px;
+    margin-top: -70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.login-upper-design {
+    display: block;
+    width: 100%;
+    height: auto;
+    z-index: 1;
+}
+
+.login-logo-img {
+    position: absolute;
+    z-index: 2;
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    object-fit: contain;
+    background: none;
+    border: none;
+    padding: 0;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: none;
+}
+
+/* ---- Headings ---- */
+.login-title {
+    text-align: center;
+    font-family: 'Parisienne', cursive;
+    font-size: 1.55rem;
+    font-weight: 400;
+    color: #f5deb3;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.6);
+}
+
+.login-subtitle {
+    text-align: center;
+    font-size: 0.76rem;
+    color: rgba(200, 164, 110, 0.80);
+    margin-bottom: 16px;
+    letter-spacing: 0.3px;
+}
+
+/* ---- Form Groups ---- */
+.form-group-login {
+    margin-bottom: 11px;
+}
+
+.login-label {
+    display: block;
+    font-size: 0.70rem;
+    font-weight: 600;
+    color: #c8a46e;
+    margin-bottom: 4px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.login-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(200, 164, 110, 0.35);
+    border-radius: 7px;
+    padding: 7px 12px;
+    color: #f5deb3;
+    font-size: 0.85rem;
+    outline: none;
+    transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+}
+
+.login-input::placeholder {
+    color: rgba(245, 222, 179, 0.40);
+}
+
+.login-input:focus {
+    border-color: #c8a46e;
+    background: rgba(255, 255, 255, 0.13);
+    box-shadow: 0 0 0 3px rgba(200, 164, 110, 0.18);
+}
+
+/* ---- Password Toggle ---- */
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper .login-input {
+    padding-right: 42px;
+}
+
+.toggle-pw {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: rgba(200, 164, 110, 0.65);
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.toggle-pw:hover {
+    color: #c8a46e;
+}
+
+/* ---- Error messages ---- */
+.login-error {
+    background: rgba(180, 60, 40, 0.20);
+    border: 1px solid rgba(200, 80, 60, 0.40);
+    border-radius: 7px;
+    color: #f5a0a0;
+    font-size: 0.83rem;
+    padding: 8px 12px;
+    margin-bottom: 16px;
+}
+
+.login-field-error {
+    display: block;
+    color: #f5a0a0;
+    font-size: 0.72rem;
+    margin-top: 3px;
+}
+
+/* ---- Options row ---- */
+.login-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.remember-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.78rem;
+    color: rgba(200, 164, 110, 0.80);
+    cursor: pointer;
+    user-select: none;
+}
+
+.remember-check {
+    width: 14px;
+    height: 14px;
+    accent-color: #c8a46e;
+    cursor: pointer;
+}
+
+.forgot-link {
+    font-size: 0.78rem;
+    color: #c8a46e;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.forgot-link:hover {
+    color: #f5deb3;
+    text-decoration: underline;
+}
+
+/* ---- Sign In Button ---- */
+.btn-signin {
+    width: 100%;
+    padding: 8px;
+    background: linear-gradient(135deg, #c8a46e 0%, #a0762e 100%);
+    border: none;
+    border-radius: 7px;
+    color: #2a1500;
+    font-size: 0.90rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: opacity 0.25s, transform 0.15s, box-shadow 0.25s;
+    box-shadow: 0 4px 16px rgba(160, 118, 46, 0.40);
+    margin-bottom: 14px;
+}
+
+.btn-signin:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(160, 118, 46, 0.55);
+}
+
+.btn-signin:active {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+/* ---- Register link ---- */
+.login-register {
+    text-align: center;
+    font-size: 0.80rem;
+    color: rgba(200, 164, 110, 0.70);
+    margin: 0;
+}
+
+.register-link {
+    color: #c8a46e;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.register-link:hover {
+    color: #f5deb3;
+    text-decoration: underline;
+}
+
+/* ---- Register card override (no arch header) ---- */
+.register-card {
+    padding-top: 28px;
+    background: linear-gradient(
+        160deg,
+        rgba(80, 45, 15, 0.35) 0%,
+        rgba(55, 30, 8, 0.40) 60%,
+        rgba(40, 20, 5, 0.45) 100%
+    );
+}
+
+.register-card .login-input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(200, 164, 110, 0.35);
+}
+
+.register-card .login-input:focus {
+    background: rgba(255, 255, 255, 0.13);
+    border-color: #c8a46e;
+}
+
+/* ---- Profile Upload ---- */
+.profile-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 14px;
+    position: relative;
+}
+
+.profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgba(80, 45, 15, 0.60);
+    border: 2px solid rgba(200, 164, 110, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(200, 164, 110, 0.75);
+    overflow: hidden;
+    position: relative;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-upload-btn {
+    position: absolute;
+    bottom: 18px;
+    right: calc(50% - 46px);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: #c8a46e;
+    border: 2px solid rgba(40, 20, 5, 0.6);
+    color: #2a1500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.2s;
+}
+
+.profile-upload-btn:hover {
+    background: #f5deb3;
+}
+
+.profile-upload-label {
+    font-size: 0.68rem;
+    color: rgba(200, 164, 110, 0.70);
+    margin-top: 4px;
+    letter-spacing: 0.3px;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 420px) {
+    .login-card {
+        padding: 0 18px 20px;
+        border-radius: 14px;
+    }
+
+    .login-title {
+        font-size: 1.3rem;
+    }
+}

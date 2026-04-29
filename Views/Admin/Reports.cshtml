@@ -1,0 +1,207 @@
+@model BalayBalayResort.Models.AdminReportsViewModel
+@{
+    ViewData["Title"] = "Reports";
+    Layout = "_AdminLayout";
+}
+
+<!-- Header -->
+<div class="rpt-header">
+    <h1 class="admin-page-title" style="margin-bottom:0">Reports &amp; Analytics</h1>
+    <button class="admin-export-btn" onclick="exportReport()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+        </svg>
+        Export Reports
+    </button>
+</div>
+
+<!-- ── Stat Cards ── -->
+<div class="rpt-stats-grid">
+
+    <div class="rpt-stat-card" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">
+        <div class="rpt-stat-top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+            <span>Total Revenue</span>
+        </div>
+        <div class="rpt-stat-value">&#8369;@Model.TotalRevenue.ToString("N0")</div>
+        <div class="rpt-stat-sub">+12% from last month</div>
+    </div>
+
+    <div class="rpt-stat-card" style="background:linear-gradient(135deg,#16a34a,#15803d)">
+        <div class="rpt-stat-top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+            </svg>
+            <span>Total Bookings</span>
+        </div>
+        <div class="rpt-stat-value">@Model.TotalBookings</div>
+        <div class="rpt-stat-sub">+8% from last month</div>
+    </div>
+
+    <div class="rpt-stat-card" style="background:linear-gradient(135deg,#9333ea,#7e22ce)">
+        <div class="rpt-stat-top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+            <span>Avg Booking Value</span>
+        </div>
+        <div class="rpt-stat-value">&#8369;@Model.AvgBookingValue.ToString("N0")</div>
+        <div class="rpt-stat-sub">+5% from last month</div>
+    </div>
+
+    <div class="rpt-stat-card" style="background:linear-gradient(135deg,#ea580c,#c2410c)">
+        <div class="rpt-stat-top">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0zm10 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0V4.9l-3.613 4.417a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61L13.445 4H10.5a.5.5 0 0 1-.5-.5z"/>
+            </svg>
+            <span>Occupancy Rate</span>
+        </div>
+        <div class="rpt-stat-value">@Model.OccupancyRate%</div>
+        <div class="rpt-stat-sub">+3% from last month</div>
+    </div>
+
+</div>
+
+<!-- ── Middle Row ── -->
+<div class="rpt-mid-grid">
+
+    <!-- Top Performing Properties -->
+    <div class="rpt-card">
+        <h2 class="rpt-card-title">Top Performing Properties</h2>
+        <div class="rpt-prop-list">
+            @foreach (var p in Model.TopProperties)
+            {
+                <div class="rpt-prop-row">
+                    <div class="rpt-prop-rank">@p.Rank</div>
+                    <div class="rpt-prop-img">
+                        <img src="@p.ImageUrl" alt="@p.Name" />
+                    </div>
+                    <div class="rpt-prop-info">
+                        <div class="rpt-prop-name">@p.Name</div>
+                        <div class="rpt-prop-location">@p.Location</div>
+                    </div>
+                    <div class="rpt-prop-stats">
+                        <div class="rpt-prop-revenue">&#8369;@p.Revenue.ToString("N0")</div>
+                        <div class="rpt-prop-bookings">@p.Bookings bookings</div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Revenue by Payment Method -->
+    <div class="rpt-card">
+        <h2 class="rpt-card-title">Revenue by Payment Method</h2>
+        <div class="rpt-pay-list">
+            @foreach (var pm in Model.PaymentMethods)
+            {
+                <div class="rpt-pay-row">
+                    <div class="rpt-pay-icon" style="background:@pm.Color">@pm.Code</div>
+                    <div class="rpt-pay-info">
+                        <div class="rpt-pay-name">@pm.Name</div>
+                        <div class="rpt-pay-txn">@pm.Transactions transactions</div>
+                    </div>
+                    <div class="rpt-pay-right">
+                        <div class="rpt-pay-amount">&#8369;@pm.Amount.ToString("N0")</div>
+                        <div class="rpt-pay-pct">@pm.Percentage%</div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+<!-- ── Bottom Row ── -->
+<div class="rpt-mid-grid">
+
+    <!-- Booking Status Overview -->
+    <div class="rpt-card">
+        <h2 class="rpt-card-title">Booking Status Overview</h2>
+        <div class="rpt-status-list">
+            <div class="rpt-status-row rpt-status-confirmed">
+                <span class="rpt-status-label">Confirmed</span>
+                <span class="rpt-status-count">@Model.ConfirmedBookings</span>
+            </div>
+            <div class="rpt-status-row rpt-status-pending">
+                <span class="rpt-status-label">Pending</span>
+                <span class="rpt-status-count">@Model.PendingBookings</span>
+            </div>
+            <div class="rpt-status-row rpt-status-cancelled">
+                <span class="rpt-status-label">Cancelled</span>
+                <span class="rpt-status-count">@Model.CancelledBookings</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monthly Trends -->
+    <div class="rpt-card">
+        <h2 class="rpt-card-title">Monthly Trends</h2>
+        <div class="rpt-trends-list">
+
+            <div class="rpt-trend-item">
+                <div class="rpt-trend-header">
+                    <span class="rpt-trend-label">Revenue Growth</span>
+                    <span class="rpt-trend-value" style="color:#16a34a">+@Model.RevenueGrowthPct%</span>
+                </div>
+                <div class="rpt-trend-bar-bg">
+                    <div class="rpt-trend-bar" style="width:@(Model.RevenueGrowthPct * 5)%;background:#16a34a"></div>
+                </div>
+            </div>
+
+            <div class="rpt-trend-item">
+                <div class="rpt-trend-header">
+                    <span class="rpt-trend-label">Booking Rate</span>
+                    <span class="rpt-trend-value" style="color:#2563eb">+@Model.BookingRatePct%</span>
+                </div>
+                <div class="rpt-trend-bar-bg">
+                    <div class="rpt-trend-bar" style="width:@(Model.BookingRatePct * 5)%;background:#2563eb"></div>
+                </div>
+            </div>
+
+            <div class="rpt-trend-item">
+                <div class="rpt-trend-header">
+                    <span class="rpt-trend-label">Customer Satisfaction</span>
+                    <span class="rpt-trend-value" style="color:#9333ea">@Model.CustomerSatisfaction/5.0</span>
+                </div>
+                <div class="rpt-trend-bar-bg">
+                    <div class="rpt-trend-bar" style="width:@((int)(Model.CustomerSatisfaction / 5.0 * 100))%;background:#9333ea"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+<script>
+    function exportReport() {
+        const lines = [
+            'Reports & Analytics',
+            '',
+            'Total Revenue,₱@Model.TotalRevenue.ToString("N0")',
+            'Total Bookings,@Model.TotalBookings',
+            'Avg Booking Value,₱@Model.AvgBookingValue.ToString("N0")',
+            'Occupancy Rate,@Model.OccupancyRate%',
+            '',
+            'Booking Status',
+            'Confirmed,@Model.ConfirmedBookings',
+            'Pending,@Model.PendingBookings',
+            'Cancelled,@Model.CancelledBookings',
+            '',
+            'Monthly Trends',
+            'Revenue Growth,+@Model.RevenueGrowthPct%',
+            'Booking Rate,+@Model.BookingRatePct%',
+            'Customer Satisfaction,@Model.CustomerSatisfaction/5.0',
+        ];
+        const a = document.createElement('a');
+        a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(lines.join('\n'));
+        a.download = 'reports.csv';
+        a.click();
+    }
+</script>
+}

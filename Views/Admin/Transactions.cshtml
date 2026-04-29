@@ -1,0 +1,125 @@
+@model BalayBalayResort.Models.AdminTransactionsViewModel
+@{
+    ViewData["Title"] = "Transactions";
+    Layout = "_AdminLayout";
+}
+
+<!-- Header -->
+<div class="admin-txn-page-header">
+    <h1 class="admin-page-title" style="margin-bottom:0">Transactions</h1>
+    <button class="admin-export-btn" onclick="exportTransactions()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+            <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+        </svg>
+        Export Transactions
+    </button>
+</div>
+
+<!-- Stat Cards -->
+<div class="admin-txn-stats">
+    <div class="admin-txn-stat-card">
+        <div class="admin-txn-stat-label">Total Transactions</div>
+        <div class="admin-txn-stat-value">@Model.TotalTransactions</div>
+    </div>
+    <div class="admin-txn-stat-card">
+        <div class="admin-txn-stat-label">Total Revenue</div>
+        <div class="admin-txn-stat-value">@Model.TotalRevenue.ToString("N0")</div>
+    </div>
+    <div class="admin-txn-stat-card">
+        <div class="admin-txn-stat-label">Completed</div>
+        <div class="admin-txn-stat-value">@Model.Completed</div>
+    </div>
+</div>
+
+<!-- Search -->
+<form method="get" action="/admin/transactions" class="admin-txn-search-bar">
+    <div class="admin-props-search-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
+             viewBox="0 0 16 16" class="admin-props-search-icon">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/>
+        </svg>
+        <input type="text" name="search" class="admin-props-search-input"
+               placeholder="Search by ID, property, method or status..."
+               value="@Model.SearchQuery" />
+    </div>
+    <button type="submit" class="admin-props-filter-btn" title="Search">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+        </svg>
+    </button>
+</form>
+
+<!-- Table -->
+@if (!Model.Transactions.Any())
+{
+    <div class="admin-placeholder-card">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#cbd5e1" viewBox="0 0 16 16">
+            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z"/>
+        </svg>
+        <p>No transactions found.</p>
+    </div>
+}
+else
+{
+    <div class="admin-txn-table-wrap">
+        <table class="admin-txn-table" id="txnTable">
+            <thead>
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Booking ID &amp; Name</th>
+                    <th>Amount</th>
+                    <th>Method</th>
+                    <th>Date</th>
+                    <th>Reference</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var t in Model.Transactions)
+                {
+                    <tr>
+                        <td class="admin-txn-id-cell">@t.TransactionId</td>
+                        <td class="admin-txn-booking-cell">
+                            <div class="admin-txn-booking-id">@t.BookingId</div>
+                            <div class="admin-txn-prop-name">@t.PropertyName</div>
+                        </td>
+                        <td>&#8369;@t.Amount.ToString("N0")</td>
+                        <td>@t.Method</td>
+                        <td>@t.Date</td>
+                        <td class="admin-txn-ref-cell">@t.Reference</td>
+                        <td>
+                            <span class="admin-txn-status @t.Status.ToLower()">@t.Status</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@section Scripts {
+<script>
+    function exportTransactions() {
+        const rows = [['Transaction ID','Booking ID','Property Name','Amount','Method','Date','Reference','Status']];
+        document.querySelectorAll('#txnTable tbody tr').forEach(tr => {
+            const cells = tr.querySelectorAll('td');
+            rows.push([
+                cells[0].innerText,
+                cells[1].querySelector('.admin-txn-booking-id')?.innerText || '',
+                cells[1].querySelector('.admin-txn-prop-name')?.innerText || '',
+                cells[2].innerText,
+                cells[3].innerText,
+                cells[4].innerText,
+                cells[5].innerText,
+                cells[6].innerText
+            ]);
+        });
+        const csv = rows.map(r => r.map(v => '"' + v.replace(/"/g,'""') + '"').join(',')).join('\n');
+        const a = document.createElement('a');
+        a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+        a.download = 'transactions.csv';
+        a.click();
+    }
+</script>
+}

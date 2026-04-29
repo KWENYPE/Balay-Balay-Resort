@@ -1,0 +1,134 @@
+@model BalayBalayResort.Models.EditProfileViewModel
+@{
+    ViewData["Title"] = "Edit Profile";
+    Layout = "_DashboardLayout";
+}
+
+<div class="editprofile-page">
+    <div class="editprofile-card">
+
+        <!-- Back link -->
+        <div class="editprofile-topbar">
+            <a href="/dashboard" class="editprofile-back-link">
+                &larr; Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Avatar + Title -->
+        <div class="editprofile-header">
+            <div class="editprofile-avatar-wrap">
+                <div class="editprofile-avatar" id="avatarPreview">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
+                         viewBox="0 0 16 16" id="avatarIcon">
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                        <path fill-rule="evenodd"
+                              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                    </svg>
+                    <img src="" alt="Profile" id="avatarImg" style="display:none;" />
+                </div>
+                <label for="avatarInput" class="editprofile-upload-btn" title="Upload photo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                        <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z" />
+                    </svg>
+                </label>
+                <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
+            </div>
+
+            <div class="editprofile-title-block">
+                <h1 class="editprofile-title">Edit Profile</h1>
+                <p class="editprofile-subtitle">Update your personal information and profile picture</p>
+            </div>
+        </div>
+
+        <!-- Success message -->
+        @if (!string.IsNullOrEmpty(Model.SuccessMessage))
+        {
+            <div class="editprofile-success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
+                </svg>
+                @Model.SuccessMessage
+            </div>
+        }
+
+        <!-- Form -->
+        <form method="post" action="/edit-profile" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <p class="editprofile-section-label">Personal Information</p>
+
+            <!-- Row 1: Full Name + Phone -->
+            <div class="editprofile-row">
+                <div class="editprofile-field">
+                    <label class="editprofile-label" asp-for="FullName">Full Name</label>
+                    <input class="editprofile-input" asp-for="FullName" placeholder="Full Name" />
+                    <span class="editprofile-error" asp-validation-for="FullName"></span>
+                </div>
+                <div class="editprofile-field">
+                    <label class="editprofile-label" asp-for="PhoneNumber">Phone No.</label>
+                    <input class="editprofile-input" asp-for="PhoneNumber" placeholder="Phone Number" />
+                    <span class="editprofile-error" asp-validation-for="PhoneNumber"></span>
+                </div>
+            </div>
+
+            <!-- Row 2: Email (full width) -->
+            <div class="editprofile-field">
+                <label class="editprofile-label" asp-for="Email">Email</label>
+                <input class="editprofile-input" asp-for="Email" placeholder="Email address" />
+                <span class="editprofile-error" asp-validation-for="Email"></span>
+            </div>
+
+            <!-- Row 3: Password + Confirm Password -->
+            <div class="editprofile-row">
+                <div class="editprofile-field">
+                    <label class="editprofile-label" asp-for="Password">Password</label>
+                    <input class="editprofile-input" asp-for="Password" placeholder="New password" />
+                    <span class="editprofile-error" asp-validation-for="Password"></span>
+                </div>
+                <div class="editprofile-field">
+                    <label class="editprofile-label" asp-for="ConfirmPassword">Confirm Password</label>
+                    <input class="editprofile-input" asp-for="ConfirmPassword" placeholder="Confirm password" />
+                    <span class="editprofile-error" asp-validation-for="ConfirmPassword"></span>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="editprofile-actions">
+                <button type="submit" class="editprofile-save-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v7.293l2.646-2.647a.5.5 0 0 1 .708.708l-3.5 3.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L7.5 9.293V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z" />
+                    </svg>
+                    Save Changes
+                </button>
+                <a href="/dashboard" class="editprofile-cancel-btn">Cancel</a>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Avatar image preview on file select
+        document.getElementById('avatarInput').addEventListener('change', function () {
+            const file = this.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.getElementById('avatarImg');
+                const icon = document.getElementById('avatarIcon');
+                img.src = e.target.result;
+                img.style.display = 'block';
+                icon.style.display = 'none';
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Clicking the avatar circle also triggers file picker
+        document.getElementById('avatarPreview').addEventListener('click', function () {
+            document.getElementById('avatarInput').click();
+        });
+    </script>
+}
