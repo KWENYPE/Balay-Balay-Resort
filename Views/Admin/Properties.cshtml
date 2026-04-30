@@ -3,13 +3,44 @@
     ViewData["Title"] = "Properties";
     Layout = "_AdminLayout";
 }
+<!--
+================ ADMIN UNIT CREATION FLOW =================
 
+ADMIN FLOW:
+Admin → Properties → Add Property → Submit Unit
+
+IMPORTANT REQUIREMENT:
+- There MUST be a clearly visible button at the bottom of the Add Unit modal
+- Label must be EXACT: "Submit Unit"
+
+BEHAVIOR:
+- This button submits the Add Property form
+- It triggers POST: /admin/properties/add
+
+VALIDATION FLOW:
+1. User fills all required fields
+2. User clicks "Submit Unit"
+3. System validates inputs
+4. If valid → submit form
+5. If invalid → show validation errors, DO NOT submit
+
+IMPORTANT RULES:
+- Do NOT allow auto-submit
+- Do NOT remove manual submit action
+- Submission must be intentional by admin
+
+UX INTENT:
+This prevents accidental creation of property units
+and ensures admin confirms all details before saving.
+
+===========================================================
+-->
 <!-- Header -->
 <div class="admin-props-header">
     <h1 class="admin-page-title" style="margin-bottom:0">Unit Management</h1>
     <button class="admin-add-btn" data-bs-toggle="modal" data-bs-target="#addPropertyModal">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
         </svg>
         Add Property
     </button>
@@ -20,14 +51,14 @@
     <div class="admin-props-search-wrap">
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor"
              viewBox="0 0 16 16" class="admin-props-search-icon">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/>
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z" />
         </svg>
         <input type="text" name="search" class="admin-props-search-input"
                placeholder="Search Properties" value="@Model.SearchQuery" />
     </div>
     <button type="submit" class="admin-props-filter-btn" title="Search">
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+            <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z" />
         </svg>
     </button>
 </form>
@@ -37,7 +68,7 @@
 {
     <div class="admin-placeholder-card">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#cbd5e1" viewBox="0 0 16 16">
-            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146z"/>
+            <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146z" />
         </svg>
         <p>No properties found.</p>
     </div>
@@ -93,7 +124,7 @@ else
                                 data-description="@p.Description"
                                 data-amenities="@p.Amenities">
                             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
                             </svg>
                             Edit
                         </button>
@@ -102,8 +133,8 @@ else
                         <button type="button" class="admin-prop-delete-btn"
                                 onclick="openDeleteModal(@p.Id, '@p.Name.Replace("'", "\\'")' )">
                             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
-                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                             </svg>
                             Delete
                         </button>
@@ -170,8 +201,8 @@ else
                         <label class="admin-unit-label">Image</label>
                         <label class="admin-upload-area" for="addImageInput">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#9ca3af" viewBox="0 0 16 16">
-                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z" />
                             </svg>
                             <span class="admin-upload-text">Click to upload additional images</span>
                             <span class="admin-upload-sub">You can select multiple files</span>
@@ -258,8 +289,8 @@ else
                         <label class="admin-unit-label">Image</label>
                         <label class="admin-upload-area" for="editImageInput">
                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#9ca3af" viewBox="0 0 16 16">
-                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z"/>
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                                <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z" />
                             </svg>
                             <span class="admin-upload-text">Click to upload additional images</span>
                             <span class="admin-upload-sub">You can select multiple files</span>
@@ -283,7 +314,7 @@ else
                 <div class="admin-unit-modal-footer">
                     <button type="submit" class="admin-unit-submit-btn">
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
-                            <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z"/>
+                            <path d="M2 1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H9.5a1 1 0 0 0-1 1v4.5h2a.5.5 0 0 1 .354.854l-2.5 2.5a.5.5 0 0 1-.708 0l-2.5-2.5A.5.5 0 0 1 5.5 6.5h2V2a2 2 0 0 1 2-2H14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h2.5a.5.5 0 0 1 0 1H2z" />
                         </svg>
                         Save Changes
                     </button>
@@ -303,8 +334,8 @@ else
             <div class="admin-delete-icon-wrap">
                 <div class="admin-delete-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                     </svg>
                 </div>
             </div>
@@ -320,8 +351,8 @@ else
                 <button type="button" class="admin-delete-cancel-btn" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" class="admin-delete-confirm-btn" onclick="confirmDelete()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
                     </svg>
                     Yes, Delete
                 </button>
@@ -336,79 +367,79 @@ else
 </form>
 
 @section Scripts {
-<script>
-    // Delete modal
-    function openDeleteModal(id, name) {
-        document.getElementById('deletePropertyName').textContent = name;
-        document.getElementById('deleteForm').action = '/admin/properties/delete/' + id;
-        new bootstrap.Modal(document.getElementById('deleteModal')).show();
-    }
+    <script>
+        // Delete modal
+        function openDeleteModal(id, name) {
+            document.getElementById('deletePropertyName').textContent = name;
+            document.getElementById('deleteForm').action = '/admin/properties/delete/' + id;
+            new bootstrap.Modal(document.getElementById('deleteModal')).show();
+        }
 
-    function confirmDelete() {
-        document.getElementById('deleteForm').submit();
-    }
+        function confirmDelete() {
+            document.getElementById('deleteForm').submit();
+        }
 
-    // Pre-fill Edit modal
-    document.getElementById('editPropertyModal').addEventListener('show.bs.modal', function (e) {
-        const btn = e.relatedTarget;
-        document.getElementById('editId').value          = btn.dataset.id;
-        document.getElementById('editUnit').value        = btn.dataset.unit;
-        document.getElementById('editName').value        = btn.dataset.name;
-        document.getElementById('editBeds').value        = btn.dataset.beds;
-        document.getElementById('editBaths').value       = btn.dataset.baths;
-        document.getElementById('editGuests').value      = btn.dataset.guests;
-        document.getElementById('editPrice').value       = btn.dataset.price;
-        document.getElementById('editDescription').value = btn.dataset.description || '';
-        document.getElementById('editPropertyForm').action = '/admin/properties/edit/' + btn.dataset.id;
+        // Pre-fill Edit modal
+        document.getElementById('editPropertyModal').addEventListener('show.bs.modal', function (e) {
+            const btn = e.relatedTarget;
+            document.getElementById('editId').value          = btn.dataset.id;
+            document.getElementById('editUnit').value        = btn.dataset.unit;
+            document.getElementById('editName').value        = btn.dataset.name;
+            document.getElementById('editBeds').value        = btn.dataset.beds;
+            document.getElementById('editBaths').value       = btn.dataset.baths;
+            document.getElementById('editGuests').value      = btn.dataset.guests;
+            document.getElementById('editPrice').value       = btn.dataset.price;
+            document.getElementById('editDescription').value = btn.dataset.description || '';
+            document.getElementById('editPropertyForm').action = '/admin/properties/edit/' + btn.dataset.id;
 
-        // Restore amenity tags
-        const editTags = document.getElementById('editAmenityTags');
-        editTags.innerHTML = '';
-        document.getElementById('editAmenitiesHidden').value = '';
-        const saved = btn.dataset.amenities || '';
-        if (saved) saved.split(',').filter(Boolean).forEach(a => createTag('edit', a.trim()));
-    });
+            // Restore amenity tags
+            const editTags = document.getElementById('editAmenityTags');
+            editTags.innerHTML = '';
+            document.getElementById('editAmenitiesHidden').value = '';
+            const saved = btn.dataset.amenities || '';
+            if (saved) saved.split(',').filter(Boolean).forEach(a => createTag('edit', a.trim()));
+        });
 
-    // Clear Add modal when opened
-    document.getElementById('addPropertyModal').addEventListener('show.bs.modal', function () {
-        document.getElementById('addAmenityTags').innerHTML = '';
-        document.getElementById('addAmenitiesHidden').value = '';
-        document.getElementById('addFileNames').textContent = '';
-    });
+        // Clear Add modal when opened
+        document.getElementById('addPropertyModal').addEventListener('show.bs.modal', function () {
+            document.getElementById('addAmenityTags').innerHTML = '';
+            document.getElementById('addAmenitiesHidden').value = '';
+            document.getElementById('addFileNames').textContent = '';
+        });
 
-    // Add amenity tag
-    function addAmenityTag(prefix) {
-        const input = document.getElementById(prefix + 'AmenityInput');
-        const val = input.value.trim();
-        if (!val) return;
-        createTag(prefix, val);
-        input.value = '';
-    }
+        // Add amenity tag
+        function addAmenityTag(prefix) {
+            const input = document.getElementById(prefix + 'AmenityInput');
+            const val = input.value.trim();
+            if (!val) return;
+            createTag(prefix, val);
+            input.value = '';
+        }
 
-    function createTag(prefix, text) {
-        const container = document.getElementById(prefix + 'AmenityTags');
-        const tag = document.createElement('span');
-        tag.className = 'admin-amenity-tag';
-        tag.innerHTML = text + ' <button type="button" onclick="removeTag(this, \'' + prefix + '\')">×</button>';
-        container.appendChild(tag);
-        updateHidden(prefix);
-    }
+        function createTag(prefix, text) {
+            const container = document.getElementById(prefix + 'AmenityTags');
+            const tag = document.createElement('span');
+            tag.className = 'admin-amenity-tag';
+            tag.innerHTML = text + ' <button type="button" onclick="removeTag(this, \'' + prefix + '\')">×</button>';
+            container.appendChild(tag);
+            updateHidden(prefix);
+        }
 
-    function removeTag(btn, prefix) {
-        btn.parentElement.remove();
-        updateHidden(prefix);
-    }
+        function removeTag(btn, prefix) {
+            btn.parentElement.remove();
+            updateHidden(prefix);
+        }
 
-    function updateHidden(prefix) {
-        const tags = document.querySelectorAll('#' + prefix + 'AmenityTags .admin-amenity-tag');
-        document.getElementById(prefix + 'AmenitiesHidden').value =
-            Array.from(tags).map(t => t.textContent.replace('×','').trim()).join(',');
-    }
+        function updateHidden(prefix) {
+            const tags = document.querySelectorAll('#' + prefix + 'AmenityTags .admin-amenity-tag');
+            document.getElementById(prefix + 'AmenitiesHidden').value =
+                Array.from(tags).map(t => t.textContent.replace('×','').trim()).join(',');
+        }
 
-    // Show selected file names in upload area
-    function showFileNames(input, spanId) {
-        const names = Array.from(input.files).map(f => f.name).join(', ');
-        document.getElementById(spanId).textContent = names;
-    }
-</script>
+        // Show selected file names in upload area
+        function showFileNames(input, spanId) {
+            const names = Array.from(input.files).map(f => f.name).join(', ');
+            document.getElementById(spanId).textContent = names;
+        }
+    </script>
 }
