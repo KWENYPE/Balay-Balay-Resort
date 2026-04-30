@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using System.ComponentModel.DataAnnotations;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BalayBalayResort.Models;
-
+// Don Commented
 public class RegisterViewModel
 {
     [Required]
@@ -12,6 +16,10 @@ public class RegisterViewModel
     [EmailAddress]
     public string Email { get; set; } = string.Empty;
 
+// TODO: VALIDATION - SHOULD ONLY ACCEPT PHONE NUMBER
+//                 - Ensure input accepts only numeric phone number format
+//                - Consider adding validation(regex or model validation)
+//              - Prevent letters or invalid characters
     [Required]
     [Phone]
     [Display(Name = "Phone No.")]
