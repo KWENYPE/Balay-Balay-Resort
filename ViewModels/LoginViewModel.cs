@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace BalayBalayResort.Models;
+namespace BalayBalayResort.ViewModels;
 
 public class LoginViewModel
 {

@@ -1,4 +1,6 @@
-namespace BalayBalayResort.Models;
+using BalayBalayResort.Models;
+
+namespace BalayBalayResort.ViewModels;
 
 public class MyBookingsViewModel
 {

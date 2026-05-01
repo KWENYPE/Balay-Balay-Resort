@@ -1,4 +1,4 @@
-namespace BalayBalayResort.Models;
+namespace BalayBalayResort.ViewModels;
 
 public class AdminBookingRow
 {

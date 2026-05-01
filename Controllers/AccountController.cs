@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using BalayBalayResort.Models;
+using BalayBalayResort.ViewModels;
 
 namespace BalayBalayResort.Controllers;
 

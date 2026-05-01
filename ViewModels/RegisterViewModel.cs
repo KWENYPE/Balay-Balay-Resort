@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace BalayBalayResort.Models;
+namespace BalayBalayResort.ViewModels;
 // Don Commented
 public class RegisterViewModel
 {
