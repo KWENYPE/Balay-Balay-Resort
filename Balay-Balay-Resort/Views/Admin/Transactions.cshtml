@@ -52,13 +52,14 @@
                 <th>Date</th>
                 <th>Reference</th>
                 <th>Status</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @if (!Model.Transactions.Any())
             {
                 <tr>
-                    <td colspan="7" style="text-align:center; padding:24px; color:#9ca3af;">No transactions found.</td>
+                    <td colspan="8" style="text-align:center; padding:24px; color:#9ca3af;">No transactions found.</td>
                 </tr>
             }
             else
@@ -66,17 +67,108 @@
                 @foreach (var t in Model.Transactions)
                 {
                     var statusClass = (t.Status ?? "pending").ToLower();
+                    var transactionNumericId = int.Parse(t.TransactionId.Replace("TXN", ""));
                     <tr>
                         <td class="admin-txn-id-cell">@t.TransactionId</td>
+
                         <td class="admin-txn-booking-cell">
                             <div class="admin-txn-booking-id">@t.BookingId</div>
                             <div class="admin-txn-prop-name">@t.PropertyName</div>
                         </td>
+
                         <td>&#8369;@t.Amount.ToString("N0")</td>
                         <td>@t.Method</td>
                         <td>@t.Date</td>
                         <td class="admin-txn-ref-cell">@t.Reference</td>
                         <td><span class="admin-txn-status @statusClass">@t.Status</span></td>
+
+                        <td>
+                            <div class="admin-txn-actions">
+                                <button type="button"
+                                        class="admin-txn-edit-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#editTransactionModal-@transactionNumericId"
+                                        title="Edit Transaction">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M12.146.854a.5.5 0 0 1 .708 0l2.292 2.292a.5.5 0 0 1 0 .708l-9.5 9.5a.5.5 0 0 1-.168.11l-4 1.5a.5.5 0 0 1-.642-.642l1.5-4a.5.5 0 0 1 .11-.168l9.5-9.5zM11.207 2.5 13.5 4.793 14.086 4 12 1.914 11.207 2.5zM10.5 3.207 3 10.707V12h1.293l7.5-7.5-1.293-1.293z" />
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <!-- EDIT TRANSACTION MODAL -->
+                            <div class="modal fade" id="editTransactionModal-@transactionNumericId" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content" style="border-radius:14px; border:none; overflow:hidden;">
+                                        <form method="post" action="/admin/transactions/edit/@transactionNumericId">
+                                            @Html.AntiForgeryToken()
+
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Edit Transaction</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+
+                                            <div class="modal-body">
+                                                <div class="admin-edit-field">
+                                                    <label>Amount</label>
+                                                    <input type="number"
+                                                           name="Amount"
+                                                           class="admin-edit-input"
+                                                           min="0"
+                                                           step="0.01"
+                                                           value="@t.Amount"
+                                                           required />
+                                                </div>
+
+                                                <div class="admin-edit-field">
+                                                    <label>Payment Method</label>
+                                                    <select name="PaymentMode" class="admin-edit-input" required>
+                                                        <option value="Cash" selected="@(t.Method == "Cash")">Cash</option>
+                                                        <option value="GCash" selected="@(t.Method == "GCash")">GCash</option>
+                                                        <option value="Bank Transfer" selected="@(t.Method == "Bank Transfer")">Bank Transfer</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="admin-edit-field">
+                                                    <label>Date</label>
+                                                    <input type="date"
+                                                           name="Date"
+                                                           class="admin-edit-input"
+                                                           value="@t.Date"
+                                                           required />
+                                                </div>
+
+                                                <div class="admin-edit-field">
+                                                    <label>Reference Number</label>
+                                                    <input type="text"
+                                                           name="ReferenceNum"
+                                                           class="admin-edit-input"
+                                                           value="@t.Reference" />
+                                                </div>
+
+                                                <div class="admin-edit-field">
+                                                    <label>Status</label>
+                                                    <select name="Status" class="admin-edit-input" required>
+                                                        <option value="Pending" selected="@(t.Status == "Pending")">Pending</option>
+                                                        <option value="Completed" selected="@(t.Status == "Completed")">Completed</option>
+                                                        <option value="Cancelled" selected="@(t.Status == "Cancelled")">Cancelled</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                    Cancel
+                                                </button>
+
+                                                <button type="submit" class="btn btn-primary" style="background:#111827; border:none;">
+                                                    Save Changes
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 }
             }

@@ -13,7 +13,7 @@
 
     <!-- Back Button -->
     <div class="booking-topbar">
-        <a href="/property/@Model.Property_ID" class="detail-back-btn">← Back to Property</a>
+        <a href="/property/@Model.Property_ID" class="detail-back-btn">← Back to Unit</a>
     </div>
 
     <h1 class="booking-main-title">Complete Your Booking</h1>
@@ -91,8 +91,12 @@
 
                         <div>
                             <strong>Available!</strong>
-                            <p>This property is available for your selected dates.</p>
+                            <p id="availText">This unit is available for your selected dates.</p>
                         </div>
+                    </div>
+                    <div class="booking-unavailable" id="unavailMsg" style="display:none;">
+                        <strong>Not Available!</strong>
+                        <p id="unavailText">This unit is not available for the selected dates.</p>
                     </div>
 
                 </div>
@@ -238,12 +242,23 @@
         const totalAmountInput = document.getElementById('TotalAmountInput');
         const modalTotalAmount = document.getElementById('modalTotalAmount');
         const availMsg = document.getElementById('availMsg');
+        const unavailMsg = document.getElementById('unavailMsg');
+        const unavailText = document.getElementById('unavailText');
+        const availText = document.getElementById('availText');
 
         function showValidationModal(message) {
             document.getElementById('validationMessage').textContent = message;
 
             const validationModal = new bootstrap.Modal(document.getElementById('validationModal'));
             validationModal.show();
+        }
+
+        const serverError = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["Error"]?.ToString() ?? ""));
+
+        if (serverError) {
+            document.addEventListener('DOMContentLoaded', function () {
+                showValidationModal(serverError);
+            });
         }
 
         function formatPeso(value) {
@@ -293,46 +308,62 @@
             const maxGuests = @Model.GuestCapacity;
 
             if (isNaN(guestCount) || guestCount < 1) {
-                availMsg.style.display = 'none';
-                showValidationModal('Please enter at least 1 guest.');
+                showUnavailableMessage('Please enter at least 1 guest.');
                 return false;
             }
 
             if (guestCount > maxGuests) {
-                availMsg.style.display = 'none';
-                showValidationModal(`Maximum guests allowed is ${maxGuests}.`);
+                showUnavailableMessage(`Maximum guests allowed is ${maxGuests}.`);
                 return false;
             }
 
             return true;
         }
 
-        function checkAvailability() {
+        function showUnavailableMessage(message) {
+            availMsg.style.display = 'none';
+            unavailText.textContent = message;
+            unavailMsg.style.display = 'block';
+        }
+
+        function hideAvailabilityMessages() {
+            availMsg.style.display = 'none';
+            unavailMsg.style.display = 'none';
+        }
+
+        async function checkAvailability() {
             const isValidDate = calculateBooking();
 
             if (!isValidDate) {
                 availMsg.style.display = 'none';
                 showValidationModal('Please select valid check-in and check-out dates.');
-                return;
+                return false;
             }
 
             if (!validateGuestCount()) {
-                return;
+                return false;
             }
 
+            const url = `/booking/@Model.Property_ID/check-availability?checkInDate=${encodeURIComponent(checkin.value)}&checkOutDate=${encodeURIComponent(checkout.value)}`;
+
+            const response = await fetch(url);
+            const result = await response.json();
+
+            if (!result.available) {
+                availMsg.style.display = 'none';
+                showValidationModal(result.message);
+                return false;
+            }
+
+            availText.textContent = result.message;
             availMsg.style.display = 'flex';
+            return true;
         }
 
-        function openPaymentModal() {
-            const isValidDate = calculateBooking();
+        async function openPaymentModal() {
+            const available = await checkAvailability();
 
-            if (!isValidDate) {
-                availMsg.style.display = 'none';
-                showValidationModal('Please select valid check-in and check-out dates first.');
-                return;
-            }
-
-            if (!validateGuestCount()) {
+            if (!available) {
                 return;
             }
 
@@ -365,17 +396,17 @@
         }
 
         checkin.addEventListener('change', function () {
-            availMsg.style.display = 'none';
+            hideAvailabilityMessages();
             calculateBooking();
         });
 
         checkout.addEventListener('change', function () {
-            availMsg.style.display = 'none';
+            hideAvailabilityMessages();
             calculateBooking();
         });
 
         guests.addEventListener('input', function () {
-            availMsg.style.display = 'none';
+            hideAvailabilityMessages();
         });
 
         document.getElementById('PaymentMode').addEventListener('change', computeChange);

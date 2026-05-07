@@ -262,7 +262,9 @@ public class AdminController : Controller
         var transactions = await _context.Transactions
             .Include(t => t.Booking)
                 .ThenInclude(b => b.Property)
-            .OrderByDescending(t => t.Date)
+            .OrderByDescending(t => t.Status == "Cancelled")
+            .ThenByDescending(t => t.Date)
+            .ThenByDescending(t => t.Transaction_ID)
             .ToListAsync();
 
         var items = transactions.Select(t => new TransactionItem
@@ -273,7 +275,7 @@ public class AdminController : Controller
             Amount = t.Booking?.TotalAmount ?? 0,
             Method = t.PaymentMode ?? "Unknown",
             Date = t.Date.ToString("yyyy-MM-dd"),
-            Reference = t.ReferenceNum ?? "",
+            Reference = t.ReferenceNum ?? "N/A",
             Status = t.Status ?? "Pending"
         });
 
@@ -293,13 +295,83 @@ public class AdminController : Controller
         var vm = new AdminTransactionsViewModel
         {
             TotalTransactions = list.Count,
-            TotalRevenue = list.Sum(t => t.Amount),
-            Completed = list.Count(t => string.Equals(t.Status, "Completed", StringComparison.OrdinalIgnoreCase)),
+
+            // Only completed transactions should count as revenue
+            TotalRevenue = list
+                .Where(t => string.Equals(t.Status, "Completed", StringComparison.OrdinalIgnoreCase))
+                .Sum(t => t.Amount),
+
+            Completed = list.Count(t =>
+                string.Equals(t.Status, "Completed", StringComparison.OrdinalIgnoreCase)),
+
             Transactions = list,
             SearchQuery = search
         };
 
         return View(vm);
+    }
+
+    // ===================== EDIT TRANSACTION =====================
+    [Route("transactions/edit/{id}")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditTransaction(
+        int id,
+        decimal Amount,
+        string PaymentMode,
+        DateTime Date,
+        string Status,
+        string? ReferenceNum)
+    {
+        var transaction = await _context.Transactions
+            .Include(t => t.Booking)
+            .FirstOrDefaultAsync(t => t.Transaction_ID == id);
+
+        if (transaction == null)
+        {
+            return NotFound();
+        }
+
+        bool isCash = string.Equals(PaymentMode, "Cash", StringComparison.OrdinalIgnoreCase);
+
+        transaction.PaymentMode = string.IsNullOrWhiteSpace(PaymentMode)
+            ? "Unknown"
+            : PaymentMode;
+
+        transaction.Date = DateOnly.FromDateTime(Date);
+
+        transaction.Status = string.IsNullOrWhiteSpace(Status)
+            ? "Pending"
+            : Status;
+
+        transaction.ReferenceNum = isCash
+            ? "N/A"
+            : string.IsNullOrWhiteSpace(ReferenceNum)
+                ? transaction.ReferenceNum ?? "REF-" + DateTime.Now.ToString("yyyyMMddHHmmss")
+                : ReferenceNum;
+
+        if (transaction.Booking != null)
+        {
+            transaction.Booking.TotalAmount = Amount;
+
+            if (string.Equals(transaction.Status, "Completed", StringComparison.OrdinalIgnoreCase))
+            {
+                transaction.Booking.Status = "Confirmed";
+            }
+            else if (string.Equals(transaction.Status, "Pending", StringComparison.OrdinalIgnoreCase))
+            {
+                transaction.Booking.Status = "Pending";
+            }
+            else if (string.Equals(transaction.Status, "Cancelled", StringComparison.OrdinalIgnoreCase))
+            {
+                transaction.Booking.Status = "Cancelled";
+            }
+        }
+
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] = "Transaction updated successfully.";
+        return RedirectToAction(nameof(Transactions));
     }
 
     // ===================== REPORTS PAGE =====================

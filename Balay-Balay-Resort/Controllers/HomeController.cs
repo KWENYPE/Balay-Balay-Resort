@@ -173,6 +173,83 @@ public class HomeController : Controller
         return RedirectToAction(nameof(PropertyDetail), new { id });
     }
 
+    [HttpGet]
+    [Route("booking/{id}/check-availability")]
+    public async Task<IActionResult> CheckAvailability(int id, DateTime checkInDate, DateTime checkOutDate)
+    {
+        var property = await _context.Properties
+            .FirstOrDefaultAsync(p => p.Property_ID == id);
+
+        if (property == null)
+        {
+            return Json(new
+            {
+                available = false,
+                message = "Unit not found."
+            });
+        }
+
+        if (checkInDate == default || checkOutDate == default)
+        {
+            return Json(new
+            {
+                available = false,
+                message = "Please select check-in and check-out dates."
+            });
+        }
+
+        if (checkOutDate <= checkInDate)
+        {
+            return Json(new
+            {
+                available = false,
+                message = "Check-out date must be after check-in date."
+            });
+        }
+
+        var overlappingBookings = await _context.Bookings
+            .Include(b => b.Transaction)
+            .Where(b =>
+                b.Property_ID == id &&
+                b.Status != "Cancelled" &&
+                checkInDate <= b.CheckOutDate &&
+                checkOutDate >= b.CheckInDate)
+            .ToListAsync();
+
+        bool hasPaidBooking = overlappingBookings.Any(b =>
+            b.Status == "Confirmed" ||
+            b.Transaction != null && b.Transaction.Status == "Completed");
+
+        if (hasPaidBooking)
+        {
+            return Json(new
+            {
+                available = false,
+                message = "This unit is not available for the selected dates because it is already paid/booked."
+            });
+        }
+
+        bool hasUnpaidBooking = overlappingBookings.Any(b =>
+            b.Status == "Pending" ||
+            b.Transaction == null ||
+            b.Transaction.Status == "Pending");
+
+        if (hasUnpaidBooking)
+        {
+            return Json(new
+            {
+                available = true,
+                message = "This unit has an unpaid pending booking. It will be automatically cancelled when you confirm your booking."
+            });
+        }
+
+        return Json(new
+        {
+            available = true,
+            message = "This unit is available for your selected dates."
+        });
+    }
+
     [HttpPost]
     [Route("booking/{id}")]
     [ValidateAntiForgeryToken]
@@ -234,6 +311,42 @@ public class HomeController : Controller
             return RedirectToAction(nameof(Booking), new { id });
         }
 
+        var overlappingBookings = await _context.Bookings
+            .Include(b => b.Transaction)
+            .Where(b =>
+                b.Property_ID == id &&
+                b.Status != "Cancelled" &&
+                CheckInDate <= b.CheckOutDate &&
+                CheckOutDate >= b.CheckInDate)
+            .ToListAsync();
+
+        bool hasPaidBooking = overlappingBookings.Any(b =>
+            b.Status == "Confirmed" ||
+            b.Transaction != null && b.Transaction.Status == "Completed");
+
+        if (hasPaidBooking)
+        {
+            TempData["Error"] = "This unit is already paid/booked for the selected dates.";
+            return RedirectToAction(nameof(Booking), new { id });
+        }
+
+        var unpaidBookings = overlappingBookings
+            .Where(b =>
+                b.Status == "Pending" ||
+                b.Transaction == null ||
+                b.Transaction.Status == "Pending")
+            .ToList();
+
+        foreach (var oldBooking in unpaidBookings)
+        {
+            oldBooking.Status = "Cancelled";
+
+            if (oldBooking.Transaction != null)
+            {
+                oldBooking.Transaction.Status = "Cancelled";
+            }
+        }
+
         bool isCash = string.Equals(PaymentMode, "Cash", StringComparison.OrdinalIgnoreCase);
 
         var booking = new Booking
@@ -244,7 +357,6 @@ public class HomeController : Controller
             CheckOutDate = CheckOutDate,
             NumberOfGuest = NumberOfGuests,
             TotalAmount = totalAmount,
-
             Status = isCash ? "Pending" : "Confirmed"
         };
 
@@ -263,9 +375,57 @@ public class HomeController : Controller
         _context.Transactions.Add(transaction);
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = isCash
-            ? "Cash booking saved as pending."
+        TempData["Success"] = unpaidBookings.Any()
+            ? "Booking completed. Previous unpaid overlapping booking was automatically cancelled."
             : "Booking completed successfully.";
+
+        return RedirectToAction(nameof(MyBookings));
+    }
+
+    [HttpPost]
+    [Route("booking/{id}/cancel")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> CancelBooking(int id)
+    {
+        int? userId = GetCurrentUserId();
+
+        if (userId == null)
+        {
+            return RedirectToAction("Login", "Account");
+        }
+
+        var booking = await _context.Bookings
+            .Include(b => b.Transaction)
+            .FirstOrDefaultAsync(b => b.Booking_ID == id && b.User_ID == userId.Value);
+
+        if (booking == null)
+        {
+            return NotFound();
+        }
+
+        booking.Status = "Cancelled";
+
+        if (booking.Transaction != null)
+        {
+            booking.Transaction.Status = "Cancelled";
+        }
+        else
+        {
+            var transaction = new Transaction
+            {
+                Booking_ID = booking.Booking_ID,
+                PaymentMode = "N/A",
+                ReferenceNum = "N/A",
+                Date = DateOnly.FromDateTime(DateTime.Now),
+                Status = "Cancelled"
+            };
+
+            _context.Transactions.Add(transaction);
+        }
+
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] = "Booking cancelled successfully.";
 
         return RedirectToAction(nameof(MyBookings));
     }

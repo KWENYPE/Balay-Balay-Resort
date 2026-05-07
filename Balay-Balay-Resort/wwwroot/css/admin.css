@@ -1448,3 +1448,33 @@
     }
 }
 
+.admin-txn-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.admin-txn-edit-btn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    background: #eff6ff;
+    color: #2563eb;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.18s, transform 0.15s;
+}
+
+    .admin-txn-edit-btn:hover {
+        background: #dbeafe;
+        transform: translateY(-1px);
+    }
+
+    .admin-txn-edit-btn svg {
+        width: 17px;
+        height: 17px;
+    }}
+

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Balay-Balay-Resort")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fc59f8b1db6c94bca4fb85b2c629e61bfa27cbac")]
 [assembly: System.Reflection.AssemblyProductAttribute("Balay-Balay-Resort")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Balay-Balay-Resort")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

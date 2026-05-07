@@ -1,8 +1,23 @@
 ﻿@model Balay_Balay_Resort.ViewModels.MyBookingsViewModel
+@using Balay_Balay_Resort.Models
 
 @{
     ViewData["Title"] = "My Bookings & Transactions";
     Layout = "_DashboardLayout";
+
+    var bookings = (Model.Bookings ?? new List<Booking>())
+        .OrderByDescending(b => b.Booking_ID)
+        .ToList();
+
+    var transactions = (Model.Transactions ?? new List<Transaction>())
+        .ToList();
+
+    var transactionLookup = transactions
+        .GroupBy(t => t.Booking_ID)
+        .ToDictionary(
+            g => g.Key,
+            g => g.OrderByDescending(t => t.Transaction_ID).First()
+        );
 }
 
 <div class="mybookings-wrapper">
@@ -29,121 +44,138 @@
         </button>
     </form>
 
-    <!-- Two-column Content -->
-    <div class="mybookings-content">
+    <!-- Headings -->
+    <div class="mybookings-paired-headings">
+        <h2 class="mybookings-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
+            </svg>
+            My Bookings
+        </h2>
 
-        <!-- Left: My Bookings -->
-        <div class="mybookings-col">
-            <h2 class="mybookings-col-title">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z" />
-                </svg>
-                My Bookings
-            </h2>
+        <h2 class="mybookings-col-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
+                <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
+            </svg>
+            Transaction History
+        </h2>
+    </div>
 
-            @if (Model.Bookings == null || !Model.Bookings.Any())
+    <!-- Paired Booking + Transaction Rows -->
+    <div class="mybookings-paired-list">
+
+        @if (!bookings.Any())
+        {
+            <p class="mybookings-empty">No bookings found.</p>
+        }
+        else
+        {
+            foreach (var booking in bookings)
             {
-                <p class="mybookings-empty">No bookings found.</p>
-            }
-            else
-            {
-                foreach (var booking in Model.Bookings)
-                {
-                    var propertyName = booking.Property?.Property_Name ?? "Property unavailable";
-                    var bookingStatus = string.IsNullOrWhiteSpace(booking.Status) ? "Pending" : booking.Status;
-                    var bookingStatusClass = bookingStatus.ToLower().Replace(" ", "-");
-                    var paymentMethod = booking.Transaction?.PaymentMode ?? "No payment yet";
+                transactionLookup.TryGetValue(booking.Booking_ID, out var txn);
 
-                    <div class="mybooking-card">
-                        <div class="mybooking-card-header">
-                            <span class="mybooking-card-name">@propertyName</span>
-                            <span class="mybooking-status @bookingStatusClass">@bookingStatus</span>
-                        </div>
+                var propertyName = booking.Property?.Property_Name ?? "Unit unavailable";
+                var bookingStatus = string.IsNullOrWhiteSpace(booking.Status) ? "Pending" : booking.Status;
+                var bookingStatusClass = bookingStatus.ToLower().Replace(" ", "-");
 
-                        <div class="mybooking-card-id">Booking ID: @booking.Booking_ID</div>
+                var paymentMethod = txn?.PaymentMode ?? booking.Transaction?.PaymentMode ?? "N/A";
 
-                        <div class="mybooking-card-info">
-                            <div>
-                                @booking.CheckInDate.ToString("yyyy-MM-dd")
-                                &ndash;
-                                @booking.CheckOutDate.ToString("yyyy-MM-dd")
+                var txnStatus = txn?.Status ?? "Pending";
+                var txnStatusClass = txnStatus.ToLower().Replace(" ", "-");
+                var txnPaymentMode = txn?.PaymentMode ?? "N/A";
+                var txnReference = txn?.ReferenceNum ?? "N/A";
+                var txnDate = txn != null ? txn.Date.ToString("yyyy-MM-dd") : "N/A";
+                var txnTotal = txn != null ? booking.TotalAmount : 0;
+
+                <div class="booking-transaction-row">
+
+                    <!-- LEFT: Booking Card -->
+                    <div class="paired-col">
+                        <div class="mybooking-card paired-card">
+                            <div class="mybooking-card-header">
+                                <span class="mybooking-card-name">@propertyName</span>
+                                <span class="mybooking-status @bookingStatusClass">@bookingStatus</span>
                             </div>
 
-                            <div>@booking.NumberOfGuest guest@(booking.NumberOfGuest == 1 ? "" : "s")</div>
+                            <div class="mybooking-card-id">Booking ID: BK@(booking.Booking_ID.ToString("D3"))</div>
 
-                            <div>@paymentMethod</div>
-                        </div>
+                            <div class="mybooking-card-info">
+                                <div>
+                                    @booking.CheckInDate.ToString("yyyy-MM-dd")
+                                    &ndash;
+                                    @booking.CheckOutDate.ToString("yyyy-MM-dd")
+                                </div>
 
-                        <hr class="mybooking-divider" />
+                                <div>@booking.NumberOfGuest guest@(booking.NumberOfGuest == 1 ? "" : "s")</div>
 
-                        <div class="mybooking-total-row">
-                            <span class="mybooking-total-label">Total Amount</span>
-                            <span class="mybooking-total-amount">&#8369;@booking.TotalAmount.ToString("N0")</span>
+                                <div>@paymentMethod</div>
+                            </div>
+
+                            <hr class="mybooking-divider" />
+
+                            <div class="mybooking-total-row">
+                                <span class="mybooking-total-label">Total Amount</span>
+                                <span class="mybooking-total-amount">&#8369;@booking.TotalAmount.ToString("N0")</span>
+                            </div>
+
+                            @if (!string.Equals(booking.Status, "Cancelled", StringComparison.OrdinalIgnoreCase))
+                            {
+                                <form method="post"
+                                      action="/booking/@booking.Booking_ID/cancel"
+                                      class="cancel-booking-form">
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="mybooking-cancel-btn">
+                                        Cancel Booking
+                                    </button>
+                                </form>
+                            }
                         </div>
                     </div>
-                }
-            }
-        </div>
 
-        <!-- Right: Transaction History -->
-        <div class="mybookings-col">
-            <h2 class="mybookings-col-title">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1H2zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V7z" />
-                    <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
-                </svg>
-                Transaction History
-            </h2>
+                    <!-- RIGHT: Transaction Card -->
+                    <div class="paired-col">
+                        <div class="txn-card paired-card">
+                            <div class="txn-card-header">
+                                <span class="txn-card-id">
+                                    Transaction @(txn != null ? "TXN" + txn.Transaction_ID.ToString("D3") : "N/A")
+                                </span>
 
-            @if (Model.Transactions == null || !Model.Transactions.Any())
-            {
-                <p class="mybookings-empty">No transactions found.</p>
-            }
-            else
-            {
-                foreach (var txn in Model.Transactions)
-                {
-                    var txnStatus = string.IsNullOrWhiteSpace(txn.Status) ? "Pending" : txn.Status;
-                    var txnStatusClass = txnStatus.ToLower().Replace(" ", "-");
-                    var txnPaymentMode = string.IsNullOrWhiteSpace(txn.PaymentMode) ? "N/A" : txn.PaymentMode;
-                    var txnReference = string.IsNullOrWhiteSpace(txn.ReferenceNum) ? "N/A" : txn.ReferenceNum;
-                    var txnTotal = txn.Booking?.TotalAmount ?? 0;
-
-                    <div class="txn-card">
-                        <div class="txn-card-header">
-                            <span class="txn-card-id">Transaction @txn.Transaction_ID</span>
-                            <span class="mybooking-status @txnStatusClass">@txnStatus</span>
-                        </div>
-
-                        <div class="txn-card-booking-id">Booking: @txn.Booking_ID</div>
-
-                        <div class="txn-card-rows">
-                            <div class="txn-card-row">
-                                <span class="txn-row-label">Payment Method</span>
-                                <span class="txn-row-value">@txnPaymentMode</span>
+                                <span class="mybooking-status @txnStatusClass">@txnStatus</span>
                             </div>
 
-                            <div class="txn-card-row">
-                                <span class="txn-row-label">Date</span>
-                                <span class="txn-row-value">@txn.Date.ToString("yyyy-MM-dd")</span>
+                            <div class="txn-card-booking-id">Booking ID: BK@(booking.Booking_ID.ToString("D3"))</div>
+
+                            <div class="txn-card-rows">
+                                <div class="txn-card-row">
+                                    <span class="txn-row-label">Payment Method</span>
+                                    <span class="txn-row-value">@txnPaymentMode</span>
+                                </div>
+
+                                <div class="txn-card-row">
+                                    <span class="txn-row-label">Date</span>
+                                    <span class="txn-row-value">@txnDate</span>
+                                </div>
+
+                                <div class="txn-card-row">
+                                    <span class="txn-row-label">Reference</span>
+                                    <span class="txn-row-value">@txnReference</span>
+                                </div>
                             </div>
 
-                            <div class="txn-card-row">
-                                <span class="txn-row-label">Reference</span>
-                                <span class="txn-row-value">@txnReference</span>
+                            <hr class="txn-divider" />
+
+                            <div class="mybooking-total-row">
+                                <span class="mybooking-total-label">Total</span>
+                                <span class="mybooking-total-amount">&#8369;@txnTotal.ToString("N0")</span>
                             </div>
-                        </div>
-
-                        <hr class="txn-divider" />
-
-                        <div class="mybooking-total-row">
-                            <span class="mybooking-total-label">Total</span>
-                            <span class="mybooking-total-amount">&#8369;@txnTotal.ToString("N0")</span>
                         </div>
                     </div>
-                }
+
+                </div>
             }
-        </div>
+        }
 
     </div>
 </div>

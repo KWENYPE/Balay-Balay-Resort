@@ -339,4 +339,5 @@ C:\Users\Admin\Downloads\Balay-Balay-Resort-admin-db-fixed\Balay-Balay-Resort\Ba
 C:\Users\Admin\Downloads\Balay-Balay-Resort-admin-db-fixed\Balay-Balay-Resort\Balay-Balay-Resort\obj\Debug\net10.0\Balay-Balay-Resort.genruntimeconfig.cache
 C:\Users\Admin\Downloads\Balay-Balay-Resort-admin-db-fixed\Balay-Balay-Resort\Balay-Balay-Resort\obj\Debug\net10.0\ref\Balay-Balay-Resort.dll
 C:\Users\Admin\Downloads\Balay-Balay-Resort-admin-db-fixed\Balay-Balay-Resort\Balay-Balay-Resort\obj\Debug\net10.0\compressed\zhesjlavkf-{0}-kelqa3e1bw-kelqa3e1bw.gz
-C:\Users\Admin\Downloads\Balay-Balay-Resort-admin-db-fixed\Balay-Balay-Resort\Balay-Balay-Resort\obj\Debug\net10.0\compressed\nd1r3lizds-{0}-okuyz13pi4-okuyz13pi4.gz
+C:\Users\Admin\Downloads\Balay-Balay-Resort-admin-db-fixed\Balay-Balay-Resort\Balay-Balay-Resort\obj\Debug\net10.0\Balay-Balay-Resort.sourcelink.json
+C:\Users\Admin\Downloads\Balay-Balay-Resort-admin-db-fixed\Balay-Balay-Resort\Balay-Balay-Resort\obj\Debug\net10.0\compressed\nd1r3lizds-{0}-9l25e4x993-9l25e4x993.gz

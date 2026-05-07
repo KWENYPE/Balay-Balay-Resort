@@ -3,56 +3,96 @@
   "WorkspaceRootPath": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\home\\booking.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\home\\booking.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\home\\mybookings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\home\\mybookings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\viewmodels\\mybookingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\viewmodels\\mybookingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\wwwroot\\css\\dashboard.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\wwwroot\\css\\dashboard.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\viewmodels\\mybookingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\viewmodels\\mybookingsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\home\\booking.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\home\\booking.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\shared\\_loginlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\shared\\_loginlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\shared\\_dashboardlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\shared\\_dashboardlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\shared\\_adminlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\home\\propertydetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\home\\propertydetail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\admin\\properties.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\admin\\properties.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\wwwroot\\css\\admin.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\wwwroot\\css\\admin.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\home\\browseproperties.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\home\\browseproperties.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\home\\privacy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\home\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\home\\editprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\home\\browseproperties.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\home\\browseproperties.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\admin\\transactions.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\admin\\transactions.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\admin\\reports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\admin\\reports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\admin\\properties.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\admin\\properties.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\views\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\views\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\wwwroot\\css\\admin.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\wwwroot\\css\\admin.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|solutionrelative:balay-balay-resort\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{B0F5E557-5769-0069-12AC-BB5B67E29892}|Balay-Balay-Resort\\Balay-Balay-Resort.csproj|c:\\users\\admin\\downloads\\balay-balay-resort-admin-db-fixed\\balay-balay-resort\\balay-balay-resort\\viewmodels\\editprofileviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -78,11 +118,141 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 15,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "Balay-Balay-Resort\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "Balay-Balay-Resort\\Controllers\\AdminController.cs",
+              "ViewState": "AgIAAPoAAAAAAAAAAAAswDcBAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T09:01:31.703Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "_LoginLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Shared\\_LoginLayout.cshtml",
+              "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Shared\\_LoginLayout.cshtml",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Shared\\_LoginLayout.cshtml",
+              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Shared\\_LoginLayout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-07T08:09:43.976Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Privacy.cshtml",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\Privacy.cshtml",
+              "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Home\\Privacy.cshtml",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\Privacy.cshtml",
+              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Home\\Privacy.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-07T08:08:43.485Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Account\\Login.cshtml",
+              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Account\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-07T08:05:32.341Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Transactions.cshtml",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Admin\\Transactions.cshtml",
+              "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Admin\\Transactions.cshtml",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Admin\\Transactions.cshtml",
+              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Admin\\Transactions.cshtml",
+              "ViewState": "AgIAAD0AAAAAAAAAAAAgwEgAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-07T08:05:19.667Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "Reports.cshtml",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Admin\\Reports.cshtml",
+              "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Admin\\Reports.cshtml",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Admin\\Reports.cshtml",
+              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Admin\\Reports.cshtml",
+              "ViewState": "AgIAABsAAAAAAAAAAAAgwCgAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-07T08:04:50.246Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "_AdminLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Shared\\_AdminLayout.cshtml",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Shared\\_AdminLayout.cshtml",
+              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Shared\\_AdminLayout.cshtml",
+              "ViewState": "AgIAABQAAAAAAAAAAAAgwB8AAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-07T08:01:05.533Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Admin\\Index.cshtml",
+              "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Admin\\Index.cshtml",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Admin\\Index.cshtml",
+              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Admin\\Index.cshtml",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAB4AAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-07T07:59:56.294Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "_DashboardLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Shared\\_DashboardLayout.cshtml",
+              "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Shared\\_DashboardLayout.cshtml",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Shared\\_DashboardLayout.cshtml",
+              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Shared\\_DashboardLayout.cshtml",
+              "ViewState": "AgIAABUAAAAAAAAAAAAgwCAAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-07T07:55:34.715Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-05-07T07:55:23.275Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "MyBookingsViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\ViewModels\\MyBookingsViewModel.cs",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\ViewModels\\MyBookingsViewModel.cs",
@@ -95,32 +265,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "MyBookings.cshtml",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\MyBookings.cshtml",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Home\\MyBookings.cshtml",
-              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\MyBookings.cshtml",
-              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Home\\MyBookings.cshtml",
-              "ViewState": "AgIAAG4AAAAAAAAAAAAQwIQAAABCAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\MyBookings.cshtml*",
+              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Home\\MyBookings.cshtml*",
+              "ViewState": "AgIAAJwAAAAAAAAAAAAuwLQAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-05-06T17:52:07.452Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 1,
               "Title": "dashboard.css",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\wwwroot\\css\\dashboard.css",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\wwwroot\\css\\dashboard.css",
               "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\wwwroot\\css\\dashboard.css",
               "RelativeToolTip": "Balay-Balay-Resort\\wwwroot\\css\\dashboard.css",
-              "ViewState": "AgIAAIIDAAAAAAAAAAAAAKYDAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAH0HAAAAAAAAAAAAAJQHAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2026-05-06T17:52:59.758Z"
+              "WhenOpened": "2026-05-06T17:52:59.758Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 20,
               "Title": "site.css",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\wwwroot\\css\\site.css",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\wwwroot\\css\\site.css",
@@ -132,44 +303,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "Booking.cshtml",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\Booking.cshtml",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Home\\Booking.cshtml",
-              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\Booking.cshtml*",
-              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Home\\Booking.cshtml*",
-              "ViewState": "AgIAAGQBAAAAAAAAAAAQwHwBAABZAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\Booking.cshtml",
+              "RelativeToolTip": "Balay-Balay-Resort\\Views\\Home\\Booking.cshtml",
+              "ViewState": "AgIAAGIBAAAAAAAAAAAgwG4BAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-05-06T17:44:01.894Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 10,
               "Title": "PropertyDetail.cshtml",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\PropertyDetail.cshtml",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Home\\PropertyDetail.cshtml",
               "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\PropertyDetail.cshtml",
               "RelativeToolTip": "Balay-Balay-Resort\\Views\\Home\\PropertyDetail.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgBAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAJEAAAAAAAAAAAAgwJwAAABEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-06T17:33:17.09Z"
+              "WhenOpened": "2026-05-06T17:33:17.09Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 18,
               "Title": "Properties.cshtml",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Admin\\Properties.cshtml",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Admin\\Properties.cshtml",
               "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Admin\\Properties.cshtml",
               "RelativeToolTip": "Balay-Balay-Resort\\Views\\Admin\\Properties.cshtml",
-              "ViewState": "AgIAAPQAAAAAAAAAAAAwwAABAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAABAAAAAAAAAAAAAcwBwAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-06T17:08:36.154Z"
+              "WhenOpened": "2026-05-06T17:08:36.154Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 21,
               "Title": "admin.css",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\wwwroot\\css\\admin.css",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\wwwroot\\css\\admin.css",
@@ -181,19 +354,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "BrowseProperties.cshtml",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\BrowseProperties.cshtml",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Home\\BrowseProperties.cshtml",
               "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\BrowseProperties.cshtml",
               "RelativeToolTip": "Balay-Balay-Resort\\Views\\Home\\BrowseProperties.cshtml",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAwwHEAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAFgAAAAAAAAAAAAgwGYAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-06T17:03:29.576Z"
+              "WhenOpened": "2026-05-06T17:03:29.576Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 26,
               "Title": "20260506165019_AddUnitNumberToProperty.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Migrations\\20260506165019_AddUnitNumberToProperty.cs",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\Migrations\\20260506165019_AddUnitNumberToProperty.cs",
@@ -205,7 +379,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 23,
               "Title": "EditProfileViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\ViewModels\\EditProfileViewModel.cs",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\ViewModels\\EditProfileViewModel.cs",
@@ -217,7 +391,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "EditProfile.cshtml",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\EditProfile.cshtml",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Home\\EditProfile.cshtml",
@@ -225,23 +399,25 @@
               "RelativeToolTip": "Balay-Balay-Resort\\Views\\Home\\EditProfile.cshtml",
               "ViewState": "AgIAAAgAAAAAAAAAAAAAwCkAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-06T15:21:48.899Z"
+              "WhenOpened": "2026-05-06T15:21:48.899Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\Views\\Home\\Index.cshtml",
               "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Views\\Home\\Index.cshtml",
               "RelativeToolTip": "Balay-Balay-Resort\\Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAYwJ8AAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAADkAAAAAAAAAAAAgwEQAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-05-06T15:09:35.606Z"
+              "WhenOpened": "2026-05-06T15:09:35.606Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 22,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Program.cs",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\Program.cs",
@@ -253,7 +429,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 24,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\appsettings.json",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\appsettings.json",
@@ -265,20 +441,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "HomeController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Controllers\\HomeController.cs",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\Controllers\\HomeController.cs",
-              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Controllers\\HomeController.cs*",
-              "RelativeToolTip": "Balay-Balay-Resort\\Controllers\\HomeController.cs*",
-              "ViewState": "AgIAAOEAAAAAAAAAAADgv+0AAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Balay-Balay-Resort\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAHsBAAAAAAAAAAAwwK4BAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-06T15:01:23.73Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 25,
               "Title": "AccountController.cs",
               "DocumentMoniker": "C:\\Users\\Admin\\Downloads\\Balay-Balay-Resort-admin-db-fixed\\Balay-Balay-Resort\\Balay-Balay-Resort\\Controllers\\AccountController.cs",
               "RelativeDocumentMoniker": "Balay-Balay-Resort\\Controllers\\AccountController.cs",
