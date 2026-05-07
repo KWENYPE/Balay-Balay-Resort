@@ -1,53 +1,133 @@
+﻿using Balay_Balay_Resort.Data;
+using Balay_Balay_Resort.Models;
+using Balay_Balay_Resort.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using BalayBalayResort.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace BalayBalayResort.Controllers;
-
-public class AccountController : Controller
+namespace Balay_Balay_Resort.Controllers
 {
-    [HttpGet]
-    public IActionResult Login()
+    public class AccountController : Controller
     {
-        return View();
-    }
+        private readonly AppDbContext _context;
+        private readonly IWebHostEnvironment _environment;
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Login(LoginViewModel model)
-    {
-        if (!ModelState.IsValid)
-            return View(model);
-
-        // Admin credentials → admin panel
-        if (model.Email == "admin@rentgala.com" && model.Password == "Admin123!")
+        public AccountController(AppDbContext context, IWebHostEnvironment environment)
         {
-            return RedirectToAction("Index", "Admin");
+            _context = context;
+            _environment = environment;
         }
 
-        // Guest credentials → guest dashboard
-        if (model.Email == "dainne@example.com" && model.Password == "Guest123!")
+        [HttpGet]
+        public IActionResult Login()
         {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(string.Empty, "Invalid email or password.");
+                return View(model);
+            }
+
+            HttpContext.Session.SetInt32("User_ID", user.User_ID);
+            HttpContext.Session.SetString("UserEmail", user.Email);
+            HttpContext.Session.SetString("UserType", user.UserType);
+
+            if (user.UserType == "Admin")
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
             return RedirectToAction("Index", "Home");
         }
 
-        ModelState.AddModelError(string.Empty, "Invalid email or password.");
-        return View(model);
-    }
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
 
-    [HttpGet]
-    public IActionResult Register()
-    {
-        return View();
-    }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult Register(RegisterViewModel model)
-    {
-        if (!ModelState.IsValid)
-            return View(model);
+            bool emailExists = await _context.Users.AnyAsync(u => u.Email == model.Email);
 
-        // TODO: Replace with real registration logic
-        return RedirectToAction("Login");
+            if (emailExists)
+            {
+                ModelState.AddModelError("Email", "Email is already registered.");
+                return View(model);
+            }
+
+            string profileImagePath = "/images/profile-picture.jpg";
+
+            if (model.ProfilePicture != null && model.ProfilePicture.Length > 0)
+            {
+                string uploadsFolder = Path.Combine(_environment.WebRootPath, "images", "profiles");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(model.ProfilePicture.FileName);
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.ProfilePicture.CopyToAsync(fileStream);
+                }
+
+                profileImagePath = "/images/profiles/" + uniqueFileName;
+            }
+
+            string firstName = model.FullName;
+            string lastName = "";
+
+            var nameParts = model.FullName.Trim().Split(' ', 2);
+
+            if (nameParts.Length > 0)
+            {
+                firstName = nameParts[0];
+            }
+
+            if (nameParts.Length > 1)
+            {
+                lastName = nameParts[1];
+            }
+
+            var user = new User
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
+                Password = model.Password,
+                ProfileImagePath = profileImagePath,
+                UserType = "Guest"
+            };
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Login");
+        }
     }
 }

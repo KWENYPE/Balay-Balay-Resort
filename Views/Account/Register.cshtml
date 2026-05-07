@@ -1,4 +1,4 @@
-@model BalayBalayResort.Models.RegisterViewModel
+﻿@model Balay_Balay_Resort.ViewModels.RegisterViewModel
 @{
     ViewData["Title"] = "Register";
     Layout = "_LoginLayout";
@@ -39,7 +39,7 @@
                         <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z" />
                     </svg>
                 </button>
-                <input type="file" id="profilePicInput" name="ProfilePicture" accept="image/*" style="display:none;" />
+                <input asp-for="ProfilePicture" type="file" id="profilePicInput" accept="image/*" style="display:none;" />
                 <p class="profile-upload-label">Upload Profile Picture</p>
             </div>
 

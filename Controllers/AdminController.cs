@@ -1,166 +1,574 @@
 using Microsoft.AspNetCore.Mvc;
-using BalayBalayResort.Models;
+using Microsoft.EntityFrameworkCore;
+using Balay_Balay_Resort.Data;
+using Balay_Balay_Resort.Models;
+using Balay_Balay_Resort.ViewModels;
 
-namespace BalayBalayResort.Controllers;
+namespace Balay_Balay_Resort.Controllers;
 
 [Route("admin")]
 public class AdminController : Controller
 {
+    private readonly AppDbContext _context;
+    private readonly IWebHostEnvironment _environment;
+
+    public AdminController(AppDbContext context, IWebHostEnvironment environment)
+    {
+        _context = context;
+        _environment = environment;
+    }
+
     [Route("")]
     [Route("dashboard")]
-    public IActionResult Index()
+    [HttpGet]
+    public async Task<IActionResult> Index()
     {
+        var recentBookingEntities = await _context.Bookings
+            .Include(b => b.Property)
+            .OrderByDescending(b => b.CheckInDate)
+            .Take(5)
+            .ToListAsync();
+
+        var recentBookings = recentBookingEntities
+            .Select(b => new AdminBookingRow
+            {
+                PropertyName = b.Property?.Property_Name ?? "Unknown Property",
+                Date = b.CheckInDate.ToString("yyyy-MM-dd"),
+                Status = b.Status ?? "Pending"
+            })
+            .ToList();
+
+        var recentTransactionEntities = await _context.Transactions
+            .Include(t => t.Booking)
+            .OrderByDescending(t => t.Date)
+            .Take(5)
+            .ToListAsync();
+
+        var recentTransactions = recentTransactionEntities
+            .Select(t => new AdminTransactionRow
+            {
+                TransactionId = "TXN" + t.Transaction_ID.ToString("D3"),
+                PaymentMethod = t.PaymentMode ?? "Unknown",
+                Amount = t.Booking?.TotalAmount ?? 0,
+                Date = t.Date.ToString("yyyy-MM-dd")
+            })
+            .ToList();
+
+        var completedTransactionsForRevenue = await _context.Transactions
+            .Include(t => t.Booking)
+            .Where(t => t.Status == "Completed")
+            .ToListAsync();
+
+        var totalRevenue = completedTransactionsForRevenue
+            .Sum(t => t.Booking?.TotalAmount ?? 0);
+
         var vm = new AdminDashboardViewModel
         {
-            TotalUsers      = 3,
-            TotalProperties = 4,
-            ActiveBookings  = 2,
-            TotalRevenue    = 100500,
-            RecentBookings  = new List<AdminBookingRow>
-            {
-                new AdminBookingRow { PropertyName = "Luxurious Beachfront Villa", Date = "2026-05-15", Status = "Confirmed" },
-                new AdminBookingRow { PropertyName = "Modern Mountain Retreat",    Date = "2026-04-20", Status = "Confirmed" }
-            },
-            RecentTransactions = new List<AdminTransactionRow>
-            {
-                new AdminTransactionRow { TransactionId = "TXN001", PaymentMethod = "GCash", Amount = 75000, Date = "2026-04-10" },
-                new AdminTransactionRow { TransactionId = "TXN001", PaymentMethod = "GCash", Amount = 23000, Date = "2026-04-10" }
-            }
+            TotalUsers = await _context.Users.CountAsync(),
+            TotalProperties = await _context.Properties.CountAsync(),
+            ActiveBookings = await _context.Bookings.CountAsync(b => b.Status != "Cancelled"),
+            TotalRevenue = totalRevenue,
+            RecentBookings = recentBookings,
+            RecentTransactions = recentTransactions
         };
+
         return View(vm);
     }
 
-    // Shared in-memory list (persists for the session lifetime)
-    private static List<PropertyItem> _properties = new()
-    {
-        new PropertyItem { Id = 1, UnitNumber = "54", Name = "Luxurious Beach Villa",    Beds = 3, Baths = 1, Guests = 4, PricePerNight = 15000, Rating = 4.9, ReviewCount = 234, ImageUrl = "/images/bg-login.png" },
-        new PropertyItem { Id = 2, UnitNumber = "55", Name = "Modern Mountain Retreat",  Beds = 4, Baths = 2, Guests = 6, PricePerNight = 19000, Rating = 4.7, ReviewCount = 189, ImageUrl = "/images/bg-login.png" },
-        new PropertyItem { Id = 3, UnitNumber = "56", Name = "Luxurious Beachfront Villa", Beds = 5, Baths = 3, Guests = 8, PricePerNight = 39000, Rating = 4.9, ReviewCount = 312, ImageUrl = "/images/bg-login.png" },
-        new PropertyItem { Id = 4, UnitNumber = "57", Name = "City Center Studio",       Beds = 1, Baths = 1, Guests = 2, PricePerNight = 8500,  Rating = 4.3, ReviewCount = 97,  ImageUrl = "/images/bg-login.png" },
-    };
-
+    // ===================== PROPERTIES PAGE =====================
     [Route("properties")]
     [HttpGet]
-    public IActionResult Properties(string search = "")
+    public async Task<IActionResult> Properties(string search = "")
     {
-        var list = string.IsNullOrWhiteSpace(search)
-            ? _properties
-            : _properties.Where(p =>
-                p.Name.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                p.UnitNumber.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+        var query = _context.Properties
+            .Include(p => p.Feedbacks)
+            .Include(p => p.Amenity_Properties)
+                .ThenInclude(ap => ap.Amenity)
+            .AsQueryable();
 
-        return View(new AdminPropertiesViewModel
+        if (!string.IsNullOrWhiteSpace(search))
         {
-            Properties  = list,
-            SearchQuery = search
-        });
+            query = query.Where(p =>
+                p.Property_Name.Contains(search) ||
+                p.UnitNumber.ToString().Contains(search));
+        }
+
+        var vm = new AdminPropertiesViewModel
+        {
+            Properties = await query
+                .OrderBy(p => p.UnitNumber)
+                .ToListAsync(),
+            SearchQuery = search,
+            NewProperty = new Property()
+        };
+
+        return View(vm);
     }
 
+    // ===================== ADD PROPERTY =====================
     [Route("properties/add")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult AddProperty(PropertyItem item)
+    public async Task<IActionResult> AddProperty(
+        string Name,
+        int UnitNumber,
+        decimal PricePerNight,
+        int Guests,
+        int Beds,
+        int Baths,
+        string? Description,
+        string? Amenities,
+        List<IFormFile>? ImageFiles)
     {
-        if (ModelState.IsValid)
+        if (string.IsNullOrWhiteSpace(Name) ||
+            UnitNumber <= 0 ||
+            PricePerNight <= 0 ||
+            Guests <= 0 ||
+            Beds <= 0 ||
+            Baths <= 0)
         {
-            item.Id = _properties.Count > 0 ? _properties.Max(p => p.Id) + 1 : 1;
-            if (string.IsNullOrWhiteSpace(item.ImageUrl))
-                item.ImageUrl = "/images/bg-login.png";
-            _properties.Add(item);
+            TempData["Error"] = "Please fill in all required fields correctly.";
+            return RedirectToAction(nameof(Properties));
         }
-        return RedirectToAction("Properties");
+
+        var imagePath = await SavePropertyImage(ImageFiles);
+
+        var property = new Property
+        {
+            Property_Name = Name.Trim(),
+            UnitNumber = UnitNumber,
+            Amount = PricePerNight,
+            AmountUnit = "night",
+            GuestCapacity = Guests,
+            BedNum = Beds,
+            BathNum = Baths,
+            Description = Description ?? "",
+            PropertyImagePath = imagePath ?? "/images/bg-login.png"
+        };
+
+        _context.Properties.Add(property);
+        await _context.SaveChangesAsync();
+
+        await SaveAmenities(property.Property_ID, Amenities);
+
+        TempData["Success"] = "Property unit added successfully.";
+        return RedirectToAction(nameof(Properties));
     }
 
-    [Route("properties/delete/{id}")]
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public IActionResult DeleteProperty(int id)
-    {
-        _properties.RemoveAll(p => p.Id == id);
-        return RedirectToAction("Properties");
-    }
-
+    // ===================== EDIT PROPERTY =====================
     [Route("properties/edit/{id}")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult EditProperty(PropertyItem item)
+    public async Task<IActionResult> EditProperty(
+        int id,
+        string Name,
+        int UnitNumber,
+        decimal PricePerNight,
+        int Guests,
+        int Beds,
+        int Baths,
+        string? Description,
+        string? Amenities,
+        List<IFormFile>? ImageFiles)
     {
-        var existing = _properties.FirstOrDefault(p => p.Id == item.Id);
-        if (existing != null)
+        var property = await _context.Properties
+            .Include(p => p.Amenity_Properties)
+            .FirstOrDefaultAsync(p => p.Property_ID == id);
+
+        if (property == null)
         {
-            existing.UnitNumber    = item.UnitNumber;
-            existing.Name          = item.Name;
-            existing.Beds          = item.Beds;
-            existing.Baths         = item.Baths;
-            existing.Guests        = item.Guests;
-            existing.PricePerNight = item.PricePerNight;
-            existing.Description   = item.Description;
-            existing.Amenities     = item.Amenities;
-            if (!string.IsNullOrWhiteSpace(item.ImageUrl))
-                existing.ImageUrl = item.ImageUrl;
+            return NotFound();
         }
-        return RedirectToAction("Properties");
+
+        if (string.IsNullOrWhiteSpace(Name) ||
+            UnitNumber <= 0 ||
+            PricePerNight <= 0 ||
+            Guests <= 0 ||
+            Beds <= 0 ||
+            Baths <= 0)
+        {
+            TempData["Error"] = "Please fill in all required fields correctly.";
+            return RedirectToAction(nameof(Properties));
+        }
+
+        property.Property_Name = Name.Trim();
+        property.UnitNumber = UnitNumber;
+        property.Amount = PricePerNight;
+        property.AmountUnit = "night";
+        property.GuestCapacity = Guests;
+        property.BedNum = Beds;
+        property.BathNum = Baths;
+        property.Description = Description ?? "";
+
+        var newImagePath = await SavePropertyImage(ImageFiles);
+
+        if (!string.IsNullOrWhiteSpace(newImagePath))
+        {
+            property.PropertyImagePath = newImagePath;
+        }
+
+        await _context.SaveChangesAsync();
+        await UpdateAmenities(property.Property_ID, Amenities);
+
+        TempData["Success"] = "Property unit updated successfully.";
+        return RedirectToAction(nameof(Properties));
     }
 
-    [Route("transactions")]
-    public IActionResult Transactions(string search = "")
+    // ===================== DELETE PROPERTY =====================
+    [Route("properties/delete/{id}")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteProperty(int id)
     {
-        var all = new List<TransactionItem>
-        {
-            new TransactionItem { TransactionId = "TXN001", BookingId = "BK001", PropertyName = "Luxurious Beachfront Villa", Amount = 75000, Method = "GCash", Date = "2026-04-10", Reference = "GC-202604101234", Status = "Completed" },
-            new TransactionItem { TransactionId = "TXN002", BookingId = "BK001", PropertyName = "Luxurious Beachfront Villa", Amount = 75000, Method = "GCash", Date = "2026-04-10", Reference = "GC-202604101235", Status = "Completed" },
-            new TransactionItem { TransactionId = "TXN003", BookingId = "BK002", PropertyName = "Modern Mountain Retreat",   Amount = 95000, Method = "GCash", Date = "2026-04-12", Reference = "GC-202604120987", Status = "Pending"   },
-        };
+        var property = await _context.Properties
+            .Include(p => p.Amenity_Properties)
+            .Include(p => p.Feedbacks)
+            .Include(p => p.Bookings)
+            .FirstOrDefaultAsync(p => p.Property_ID == id);
 
-        var list = string.IsNullOrWhiteSpace(search)
-            ? all
-            : all.Where(t =>
+        if (property == null)
+        {
+            return NotFound();
+        }
+
+        if (property.Bookings.Any())
+        {
+            TempData["Error"] = "This property cannot be deleted because it already has bookings.";
+            return RedirectToAction(nameof(Properties));
+        }
+
+        if (property.Amenity_Properties.Any())
+        {
+            _context.Amenities_Properties.RemoveRange(property.Amenity_Properties);
+        }
+
+        if (property.Feedbacks.Any())
+        {
+            _context.Feedbacks.RemoveRange(property.Feedbacks);
+        }
+
+        _context.Properties.Remove(property);
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] = "Property unit deleted successfully.";
+        return RedirectToAction(nameof(Properties));
+    }
+
+    // ===================== TRANSACTIONS PAGE =====================
+    [Route("transactions")]
+    [HttpGet]
+    public async Task<IActionResult> Transactions(string search = "")
+    {
+        var transactions = await _context.Transactions
+            .Include(t => t.Booking)
+                .ThenInclude(b => b.Property)
+            .OrderByDescending(t => t.Status == "Cancelled")
+            .ThenByDescending(t => t.Date)
+            .ThenByDescending(t => t.Transaction_ID)
+            .ToListAsync();
+
+        var items = transactions.Select(t => new TransactionItem
+        {
+            TransactionId = "TXN" + t.Transaction_ID.ToString("D3"),
+            BookingId = "BK" + t.Booking_ID.ToString("D3"),
+            PropertyName = t.Booking?.Property?.Property_Name ?? "Unknown Property",
+            Amount = t.Booking?.TotalAmount ?? 0,
+            Method = t.PaymentMode ?? "Unknown",
+            Date = t.Date.ToString("yyyy-MM-dd"),
+            Reference = t.ReferenceNum ?? "N/A",
+            Status = t.Status ?? "Pending"
+        });
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            items = items.Where(t =>
                 t.TransactionId.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                 t.BookingId.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                 t.PropertyName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
                 t.Method.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                t.Status.Contains(search, StringComparison.OrdinalIgnoreCase)).ToList();
+                t.Reference.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                t.Status.Contains(search, StringComparison.OrdinalIgnoreCase));
+        }
+
+        var list = items.ToList();
 
         var vm = new AdminTransactionsViewModel
         {
             TotalTransactions = list.Count,
-            TotalRevenue      = list.Sum(t => t.Amount),
-            Completed         = list.Count(t => t.Status == "Completed"),
-            Transactions      = list,
-            SearchQuery       = search
+
+            // Only completed transactions should count as revenue
+            TotalRevenue = list
+                .Where(t => string.Equals(t.Status, "Completed", StringComparison.OrdinalIgnoreCase))
+                .Sum(t => t.Amount),
+
+            Completed = list.Count(t =>
+                string.Equals(t.Status, "Completed", StringComparison.OrdinalIgnoreCase)),
+
+            Transactions = list,
+            SearchQuery = search
         };
 
         return View(vm);
     }
 
-    [Route("reports")]
-    public IActionResult Reports()
+    // ===================== EDIT TRANSACTION =====================
+    [Route("transactions/edit/{id}")]
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditTransaction(
+        int id,
+        decimal Amount,
+        string PaymentMode,
+        DateTime Date,
+        string Status,
+        string? ReferenceNum)
     {
+        var transaction = await _context.Transactions
+            .Include(t => t.Booking)
+            .FirstOrDefaultAsync(t => t.Transaction_ID == id);
+
+        if (transaction == null)
+        {
+            return NotFound();
+        }
+
+        bool isCash = string.Equals(PaymentMode, "Cash", StringComparison.OrdinalIgnoreCase);
+
+        transaction.PaymentMode = string.IsNullOrWhiteSpace(PaymentMode)
+            ? "Unknown"
+            : PaymentMode;
+
+        transaction.Date = DateOnly.FromDateTime(Date);
+
+        transaction.Status = string.IsNullOrWhiteSpace(Status)
+            ? "Pending"
+            : Status;
+
+        transaction.ReferenceNum = isCash
+            ? "N/A"
+            : string.IsNullOrWhiteSpace(ReferenceNum)
+                ? transaction.ReferenceNum ?? "REF-" + DateTime.Now.ToString("yyyyMMddHHmmss")
+                : ReferenceNum;
+
+        if (transaction.Booking != null)
+        {
+            transaction.Booking.TotalAmount = Amount;
+
+            if (string.Equals(transaction.Status, "Completed", StringComparison.OrdinalIgnoreCase))
+            {
+                transaction.Booking.Status = "Confirmed";
+            }
+            else if (string.Equals(transaction.Status, "Pending", StringComparison.OrdinalIgnoreCase))
+            {
+                transaction.Booking.Status = "Pending";
+            }
+            else if (string.Equals(transaction.Status, "Cancelled", StringComparison.OrdinalIgnoreCase))
+            {
+                transaction.Booking.Status = "Cancelled";
+            }
+        }
+
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] = "Transaction updated successfully.";
+        return RedirectToAction(nameof(Transactions));
+    }
+
+    // ===================== REPORTS PAGE =====================
+    [Route("reports")]
+    [HttpGet]
+    public async Task<IActionResult> Reports()
+    {
+        var bookings = await _context.Bookings
+            .Include(b => b.Property)
+            .ToListAsync();
+
+        var transactions = await _context.Transactions
+            .Include(t => t.Booking)
+            .ToListAsync();
+
+        var completedTransactions = transactions
+            .Where(t => string.Equals(t.Status, "Completed", StringComparison.OrdinalIgnoreCase))
+            .ToList();
+
+        var totalRevenue = completedTransactions.Sum(t => t.Booking?.TotalAmount ?? 0);
+        var totalBookings = bookings.Count;
+        var avgBookingValue = totalBookings > 0 ? bookings.Average(b => b.TotalAmount) : 0;
+
+        var confirmedBookings = bookings.Count(b => string.Equals(b.Status, "Confirmed", StringComparison.OrdinalIgnoreCase));
+        var pendingBookings = bookings.Count(b => string.Equals(b.Status, "Pending", StringComparison.OrdinalIgnoreCase));
+        var cancelledBookings = bookings.Count(b => string.Equals(b.Status, "Cancelled", StringComparison.OrdinalIgnoreCase));
+
+        var customerSatisfaction = await _context.Feedbacks.AnyAsync()
+            ? await _context.Feedbacks.Select(f => (double)f.ReviewRate).AverageAsync()
+            : 0;
+
+        var topProperties = bookings
+            .Where(b => b.Property != null)
+            .GroupBy(b => b.Property!)
+            .Select(g => new
+            {
+                Property = g.Key,
+                Revenue = g.Sum(b => b.TotalAmount),
+                Bookings = g.Count()
+            })
+            .OrderByDescending(x => x.Revenue)
+            .Take(4)
+            .Select((x, index) => new TopProperty
+            {
+                Rank = index + 1,
+                Name = x.Property.Property_Name,
+                Location = "",
+                Revenue = x.Revenue,
+                Bookings = x.Bookings,
+                ImageUrl = x.Property.PropertyImagePath
+            })
+            .ToList();
+
+        var paymentMethods = completedTransactions
+            .GroupBy(t => string.IsNullOrWhiteSpace(t.PaymentMode) ? "Unknown" : t.PaymentMode)
+            .Select(g => new
+            {
+                Method = g.Key,
+                Transactions = g.Count(),
+                Amount = g.Sum(t => t.Booking?.TotalAmount ?? 0)
+            })
+            .OrderByDescending(x => x.Amount)
+            .Select(x => new PaymentMethodRevenue
+            {
+                Code = string.IsNullOrWhiteSpace(x.Method)
+                    ? "NA"
+                    : x.Method.Length <= 2 ? x.Method.ToUpper() : x.Method.Substring(0, 2).ToUpper(),
+                Name = x.Method ?? "Unknown",
+                Transactions = x.Transactions,
+                Amount = x.Amount,
+                Percentage = totalRevenue > 0 ? (int)Math.Round((x.Amount / totalRevenue) * 100) : 0,
+                Color = "#2563eb"
+            })
+            .ToList();
+
+        var occupancyRate = totalBookings > 0
+            ? (int)Math.Round((decimal)confirmedBookings / totalBookings * 100)
+            : 0;
+
         var vm = new AdminReportsViewModel
         {
-            TotalRevenue      = 100500,
-            TotalBookings     = 2,
-            AvgBookingValue   = 50250,
-            OccupancyRate     = 78,
-            ConfirmedBookings = 2,
-            PendingBookings   = 0,
-            CancelledBookings = 0,
-            RevenueGrowthPct  = 12,
-            BookingRatePct    = 8,
-            CustomerSatisfaction = 4.8,
-            TopProperties = new List<TopProperty>
-            {
-                new TopProperty { Rank = 1, Name = "Luxurious Beachfront Villa", Location = "Boracay, Philippines",  Revenue = 150000, Bookings = 127, ImageUrl = "/images/bg-login.png" },
-                new TopProperty { Rank = 2, Name = "Modern Mountain Retreat",   Location = "Tagaytay, Philippines", Revenue = 85000,  Bookings = 89,  ImageUrl = "/images/bg-login.png" },
-                new TopProperty { Rank = 3, Name = "Tropical Garden Bungalow",  Location = "Palawan, Philippines",  Revenue = 60000,  Bookings = 64,  ImageUrl = "/images/bg-login.png" },
-                new TopProperty { Rank = 4, Name = "Urban Penthouse Suite",     Location = "Makati, Manila",        Revenue = 120000, Bookings = 156, ImageUrl = "/images/bg-login.png" },
-            },
-            PaymentMethods = new List<PaymentMethodRevenue>
-            {
-                new PaymentMethodRevenue { Code = "GC", Name = "GCash",         Transactions = 1, Amount = 75000, Percentage = 50, Color = "#2563eb" },
-                new PaymentMethodRevenue { Code = "BT", Name = "Bank Transfer", Transactions = 1, Amount = 25500, Percentage = 50, Color = "#16a34a" },
-            }
+            TotalRevenue = totalRevenue,
+            TotalBookings = totalBookings,
+            AvgBookingValue = avgBookingValue,
+            OccupancyRate = occupancyRate,
+            ConfirmedBookings = confirmedBookings,
+            PendingBookings = pendingBookings,
+            CancelledBookings = cancelledBookings,
+            RevenueGrowthPct = 0,
+            BookingRatePct = 0,
+            CustomerSatisfaction = customerSatisfaction,
+            TopProperties = topProperties,
+            PaymentMethods = paymentMethods
         };
+
         return View(vm);
+    }
+
+    // ===================== IMAGE SAVE HELPER =====================
+    private async Task<string?> SavePropertyImage(List<IFormFile>? imageFiles)
+    {
+        if (imageFiles == null || !imageFiles.Any())
+        {
+            return null;
+        }
+
+        var firstImage = imageFiles.FirstOrDefault();
+
+        if (firstImage == null || firstImage.Length == 0)
+        {
+            return null;
+        }
+
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+        var fileExtension = Path.GetExtension(firstImage.FileName).ToLowerInvariant();
+
+        if (!allowedExtensions.Contains(fileExtension))
+        {
+            return null;
+        }
+
+        var uploadsFolder = Path.Combine(_environment.WebRootPath, "images", "properties");
+
+        if (!Directory.Exists(uploadsFolder))
+        {
+            Directory.CreateDirectory(uploadsFolder);
+        }
+
+        var fileName = $"{Guid.NewGuid()}{fileExtension}";
+        var filePath = Path.Combine(uploadsFolder, fileName);
+
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await firstImage.CopyToAsync(stream);
+        }
+
+        return $"/images/properties/{fileName}";
+    }
+
+    // ===================== SAVE AMENITIES HELPER =====================
+    private async Task SaveAmenities(int propertyId, string? amenities)
+    {
+        if (string.IsNullOrWhiteSpace(amenities))
+        {
+            return;
+        }
+
+        var amenityNames = amenities
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(a => a.Trim())
+            .Where(a => !string.IsNullOrWhiteSpace(a))
+            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        foreach (var amenityName in amenityNames)
+        {
+            var amenity = await _context.Amenities
+                .FirstOrDefaultAsync(a => a.Amenity_Name == amenityName);
+
+            if (amenity == null)
+            {
+                amenity = new Amenity
+                {
+                    Amenity_Name = amenityName
+                };
+
+                _context.Amenities.Add(amenity);
+                await _context.SaveChangesAsync();
+            }
+
+            var alreadyLinked = await _context.Amenities_Properties
+                .AnyAsync(ap => ap.Property_ID == propertyId && ap.Amenity_ID == amenity.Amenity_ID);
+
+            if (!alreadyLinked)
+            {
+                var amenityProperty = new Amenity_Property
+                {
+                    Property_ID = propertyId,
+                    Amenity_ID = amenity.Amenity_ID
+                };
+
+                _context.Amenities_Properties.Add(amenityProperty);
+            }
+        }
+
+        await _context.SaveChangesAsync();
+    }
+
+    // ===================== UPDATE AMENITIES HELPER =====================
+    private async Task UpdateAmenities(int propertyId, string? amenities)
+    {
+        var existingAmenities = _context.Amenities_Properties
+            .Where(ap => ap.Property_ID == propertyId);
+
+        _context.Amenities_Properties.RemoveRange(existingAmenities);
+        await _context.SaveChangesAsync();
+
+        await SaveAmenities(propertyId, amenities);
     }
 }

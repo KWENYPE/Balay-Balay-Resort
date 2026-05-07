@@ -1,8 +1,20 @@
-@model BalayBalayResort.Models.AdminPropertiesViewModel
+@model Balay_Balay_Resort.ViewModels.AdminPropertiesViewModel
+@using System.Linq
 @{
     ViewData["Title"] = "Properties";
     Layout = "_AdminLayout";
 }
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
 <!--
 ================ ADMIN UNIT CREATION FLOW =================
 
@@ -42,7 +54,7 @@ and ensures admin confirms all details before saving.
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
         </svg>
-        Add Property
+        Add Unit
     </button>
 </div>
 
@@ -54,7 +66,7 @@ and ensures admin confirms all details before saving.
             <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z" />
         </svg>
         <input type="text" name="search" class="admin-props-search-input"
-               placeholder="Search Properties" value="@Model.SearchQuery" />
+               placeholder="Search Units" value="@Model.SearchQuery" />
     </div>
     <button type="submit" class="admin-props-filter-btn" title="Search">
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
@@ -70,7 +82,7 @@ and ensures admin confirms all details before saving.
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="#cbd5e1" viewBox="0 0 16 16">
             <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146z" />
         </svg>
-        <p>No properties found.</p>
+        <p>No units found.</p>
     </div>
 }
 else
@@ -80,32 +92,44 @@ else
         {
             <div class="admin-prop-card">
                 <div class="admin-prop-img">
-                    <img src="@p.ImageUrl" alt="@p.Name" />
+                    <img src="@p.PropertyImagePath" alt="@p.Property_Name" />
                 </div>
                 <div class="admin-prop-body">
                     <div class="admin-prop-unit">Unit #@p.UnitNumber</div>
-                    <div class="admin-prop-name">@p.Name</div>
+                    <div class="admin-prop-name">@p.Property_Name</div>
                     <div class="admin-prop-meta">
                         <span>
                             <img src="/images/icons/Beds.png" class="admin-meta-icon" alt="Beds" />
-                            @p.Beds Beds
+                            @p.BedNum Beds
                         </span>
                         <span>
                             <img src="/images/icons/Baths.png" class="admin-meta-icon" alt="Baths" />
-                            @p.Baths Baths
+                            @p.BathNum Baths
                         </span>
                         <span>
                             <img src="/images/icons/Guests.png" class="admin-meta-icon" alt="Guests" />
-                            @p.Guests Guests
+                            @p.GuestCapacity Guests
                         </span>
                     </div>
                     <div class="admin-prop-footer">
                         <div class="admin-prop-rating">
                             <span class="admin-star">★</span>
-                            <span>@p.Rating (@p.ReviewCount)</span>
+                            @{
+                                var averageRating = p.Feedbacks != null && p.Feedbacks.Any()
+                                    ? p.Feedbacks.Average(f => f.ReviewRate)
+                                    : 0;
+
+                                var reviewCount = p.Feedbacks?.Count ?? 0;
+                                var amenities = p.Amenity_Properties != null
+                                    ? string.Join(",", p.Amenity_Properties
+                                        .Where(ap => ap.Amenity != null)
+                                        .Select(ap => ap.Amenity!.Amenity_Name))
+                                    : "";
+                            }
+                            <span>@averageRating.ToString("0.0") (@reviewCount)</span>
                         </div>
                         <div class="admin-prop-price">
-                            &#8369;@p.PricePerNight.ToString("N0")<span>/night</span>
+                            &#8369;@p.Amount.ToString("N0")<span>/night</span>
                         </div>
                     </div>
                     <div class="admin-prop-actions">
@@ -113,16 +137,16 @@ else
                         <button class="admin-prop-edit-btn"
                                 data-bs-toggle="modal"
                                 data-bs-target="#editPropertyModal"
-                                data-id="@p.Id"
+                                data-id="@p.Property_ID"
                                 data-unit="@p.UnitNumber"
-                                data-name="@p.Name"
-                                data-beds="@p.Beds"
-                                data-baths="@p.Baths"
-                                data-guests="@p.Guests"
-                                data-price="@p.PricePerNight"
-                                data-image="@p.ImageUrl"
+                                data-name="@p.Property_Name"
+                                data-beds="@p.BedNum"
+                                data-baths="@p.BathNum"
+                                data-guests="@p.GuestCapacity"
+                                data-price="@p.Amount"
+                                data-image="@p.PropertyImagePath"
                                 data-description="@p.Description"
-                                data-amenities="@p.Amenities">
+                                data-amenities="@amenities">
                             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
                             </svg>
@@ -131,7 +155,7 @@ else
 
                         <!-- Delete trigger (opens custom modal) -->
                         <button type="button" class="admin-prop-delete-btn"
-                                onclick="openDeleteModal(@p.Id, '@p.Name.Replace("'", "\\'")' )">
+                                onclick="openDeleteModal(@p.Property_ID, '@p.Property_Name.Replace("'", "\\'")' )">
                             <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                                 <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
@@ -155,7 +179,7 @@ else
                 <button type="button" class="admin-unit-modal-close" data-bs-dismiss="modal">&times;</button>
             </div>
 
-            <form method="post" action="/admin/properties/add" class="d-flex flex-column h-100">
+            <form method="post" action="/admin/properties/add" enctype="multipart/form-data" class="d-flex flex-column h-100">
                 @Html.AntiForgeryToken()
                 <div class="admin-unit-modal-body">
 
@@ -163,7 +187,7 @@ else
                     <p class="admin-unit-section-label">Basic Information</p>
 
                     <div class="admin-unit-field">
-                        <label class="admin-unit-label">Property Title</label>
+                        <label class="admin-unit-label">Unit Title</label>
                         <input name="Name" class="admin-unit-input" required />
                     </div>
                     <div class="admin-unit-field">
@@ -224,7 +248,7 @@ else
                 </div>
 
                 <div class="admin-unit-modal-footer">
-                    <button type="submit" class="admin-unit-submit-btn">Submit</button>
+                    <button type="submit" class="admin-unit-submit-btn">Submit Unit</button>
                     <button type="button" class="admin-unit-cancel-btn" data-bs-dismiss="modal">Cancel</button>
                 </div>
             </form>
@@ -242,7 +266,7 @@ else
                 <button type="button" class="admin-unit-modal-close" data-bs-dismiss="modal">&times;</button>
             </div>
 
-            <form method="post" action="/admin/properties/edit/0" id="editPropertyForm" class="d-flex flex-column h-100">
+            <form method="post" action="/admin/properties/edit/0" id="editPropertyForm" enctype="multipart/form-data" class="d-flex flex-column h-100">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="Id" id="editId" />
                 <div class="admin-unit-modal-body">
@@ -251,7 +275,7 @@ else
                     <p class="admin-unit-section-label">Basic Information</p>
 
                     <div class="admin-unit-field">
-                        <label class="admin-unit-label">Property Title</label>
+                        <label class="admin-unit-label">Unit Title</label>
                         <input name="Name" id="editName" class="admin-unit-input" required />
                     </div>
                     <div class="admin-unit-field">
@@ -340,7 +364,7 @@ else
                 </div>
             </div>
 
-            <h5 class="admin-delete-title">Delete Property</h5>
+            <h5 class="admin-delete-title">Delete Unit</h5>
             <p class="admin-delete-msg">
                 Are you sure you want to delete<br />
                 <strong id="deletePropertyName"></strong>?<br />

@@ -1,4 +1,4 @@
-@model BalayBalayResort.Models.EditProfileViewModel
+﻿@model Balay_Balay_Resort.ViewModels.EditProfileViewModel
 @{
     ViewData["Title"] = "Edit Profile";
     Layout = "_DashboardLayout";
@@ -18,13 +18,27 @@
         <div class="editprofile-header">
             <div class="editprofile-avatar-wrap">
                 <div class="editprofile-avatar" id="avatarPreview">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
-                         viewBox="0 0 16 16" id="avatarIcon">
-                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                        <path fill-rule="evenodd"
-                              d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                    </svg>
-                    <img src="" alt="Profile" id="avatarImg" style="display:none;" />
+                    @if (!string.IsNullOrWhiteSpace(Model.ProfileImagePath))
+                    {
+                        <img src="@Model.ProfileImagePath" alt="Profile" id="avatarImg" />
+                        <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
+                             viewBox="0 0 16 16" id="avatarIcon" style="display:none;">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                            <path fill-rule="evenodd"
+                                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                        </svg>
+                    }
+                    else
+                    {
+                        <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="currentColor"
+                             viewBox="0 0 16 16" id="avatarIcon">
+                            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                            <path fill-rule="evenodd"
+                                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
+                        </svg>
+
+                        <img src="" alt="Profile" id="avatarImg" style="display:none;" />
+                    }
                 </div>
                 <label for="avatarInput" class="editprofile-upload-btn" title="Upload photo">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
@@ -32,7 +46,12 @@
                         <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z" />
                     </svg>
                 </label>
-                <input type="file" id="avatarInput" accept="image/*" style="display:none;" />
+                <input type="file"
+                       id="avatarInput"
+                       name="ProfilePicture"
+                       accept="image/*"
+                       style="display:none;"
+                       form="editProfileForm" />
             </div>
 
             <div class="editprofile-title-block">
@@ -53,7 +72,7 @@
         }
 
         <!-- Form -->
-        <form method="post" action="/edit-profile" enctype="multipart/form-data">
+        <form id="editProfileForm" method="post" action="/edit-profile" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
 
             <p class="editprofile-section-label">Personal Information</p>
@@ -132,3 +151,5 @@
         });
     </script>
 }
+
+
