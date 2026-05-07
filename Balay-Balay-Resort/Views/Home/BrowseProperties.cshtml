@@ -1,0 +1,114 @@
+﻿@model List<Balay_Balay_Resort.Models.Property>
+
+@{
+    ViewData["Title"] = "Browse Properties";
+    Layout = "_DashboardLayout";
+
+    var searchQuery = ViewBag.SearchQuery as string ?? "";
+}
+
+<div class="browse-wrapper">
+
+    <!-- Search Bar -->
+    <form method="get" action="/browse-properties" class="browse-search-bar">
+        <div class="browse-search-input-wrap">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                 viewBox="0 0 16 16" class="browse-search-icon">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.099zm-5.242 1.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z" />
+            </svg>
+
+            <input type="text"
+                   name="search"
+                   class="browse-search-input"
+                   placeholder="Search Units"
+                   value="@searchQuery" />
+        </div>
+
+        <button type="submit" class="browse-filter-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                 viewBox="0 0 16 16">
+                <path d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z" />
+            </svg>
+        </button>
+    </form>
+
+    <!-- Count -->
+    <div class="browse-count-wrap">
+        <p class="browse-count">@Model.Count Unit@(Model.Count == 1 ? "" : "s") Available</p>
+        <p class="browse-subtitle">Find your perfect vacation retreat</p>
+    </div>
+
+    <!-- Property Grid -->
+    <div class="browse-grid">
+
+        @if (Model != null && Model.Any())
+        {
+            foreach (var property in Model)
+            {
+                var averageRating = property.Feedbacks != null && property.Feedbacks.Any()
+                    ? property.Feedbacks.Average(f => f.ReviewRate)
+                    : 0;
+
+                var reviewCount = property.Feedbacks?.Count ?? 0;
+
+                <a href="/property/@property.Property_ID" class="property-card-link">
+                    <div class="property-card">
+                        <div class="property-card-img">
+                            <img src="@(string.IsNullOrWhiteSpace(property.PropertyImagePath) ? "/images/bg-login.png" : property.PropertyImagePath)"
+                                 alt="@property.Property_Name" />
+
+                            <div class="property-card-tag">@property.Property_Name.ToUpper()</div>
+                        </div>
+
+                        <div class="property-card-body">
+                            <div class="property-card-location">Unit #@property.UnitNumber</div>
+
+                            <div class="property-card-name">@property.Property_Name</div>
+
+                            <div class="property-card-meta">
+                                <span>
+                                    <img src="/images/icons/Beds.png" class="meta-icon" />
+                                    @property.BedNum Bed@(property.BedNum == 1 ? "" : "s")
+                                </span>
+
+                                <span>
+                                    <img src="/images/icons/Baths.png" class="meta-icon" />
+                                    @property.BathNum Bath@(property.BathNum == 1 ? "" : "s")
+                                </span>
+
+                                <span>
+                                    <img src="/images/icons/Guests.png" class="meta-icon" />
+                                    @property.GuestCapacity Guest@(property.GuestCapacity == 1 ? "" : "s")
+                                </span>
+                            </div>
+
+                            <div class="property-card-footer">
+                                <div class="property-card-rating">
+                                    <span class="star">★</span>
+                                    @averageRating.ToString("0.0")
+                                    <span style="color:#aaa;font-weight:400">(@reviewCount)</span>
+                                </div>
+
+                                <div class="property-card-price">
+                                    ₱@property.Amount.ToString("N0") <span>/night</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+        }
+        else
+        {
+            <div class="property-card">
+                <div class="property-card-body">
+                    <div class="property-card-name">No units available yet.</div>
+                    <div class="property-card-location">
+                        Units added by the admin will appear here.
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
