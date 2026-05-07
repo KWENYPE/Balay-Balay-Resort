@@ -1,0 +1,297 @@
+﻿@model Balay_Balay_Resort.Models.Property
+@using System.Linq
+
+@{
+    ViewData["Title"] = Model.Property_Name;
+    Layout = "_DashboardLayout";
+
+    var averageRating = Model.Feedbacks != null && Model.Feedbacks.Any()
+        ? Model.Feedbacks.Average(f => f.ReviewRate)
+        : 0;
+
+    var reviewCount = Model.Feedbacks?.Count ?? 0;
+
+    var amenities = Model.Amenity_Properties?
+        .Where(ap => ap.Amenity != null)
+        .Select(ap => ap.Amenity!.Amenity_Name)
+        .ToList() ?? new List<string>();
+
+    var imagePath = string.IsNullOrWhiteSpace(Model.PropertyImagePath)
+        ? "/images/bg-login.png"
+        : Model.PropertyImagePath;
+}
+
+<div class="detail-wrapper">
+
+    <!-- Back Button top-right -->
+    <div class="detail-topbar">
+        <a href="/browse-properties" class="detail-back-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
+            </svg>
+            Back to Property
+        </a>
+    </div>
+
+    <!-- Hero Image -->
+    <div class="detail-img-wrap">
+        <img src="@imagePath" alt="@Model.Property_Name" class="detail-img" />
+        <div class="detail-img-tag">@Model.Property_Name.ToUpper()</div>
+        <button class="detail-img-arrow left">&#8249;</button>
+        <button class="detail-img-arrow right">&#8250;</button>
+    </div>
+
+    <!-- Two Column Layout -->
+    <div class="detail-layout">
+
+        <!-- LEFT: Main Content -->
+        <div class="detail-main">
+
+            <!-- Title Block -->
+            <div class="detail-title-block">
+                <p class="detail-unit-label">Unit #@Model.UnitNumber</p>
+
+                <h1 class="detail-title">@Model.Property_Name</h1>
+
+                <div class="detail-title-meta">
+                    <span>
+                        <img src="/images/icons/Beds.png" class="meta-icon" />
+                        @Model.BedNum Bed@(Model.BedNum == 1 ? "" : "s")
+                    </span>
+
+                    <span>
+                        <img src="/images/icons/Baths.png" class="meta-icon" />
+                        @Model.BathNum Bath@(Model.BathNum == 1 ? "" : "s")
+                    </span>
+
+                    <span>
+                        <img src="/images/icons/Guests.png" class="meta-icon" />
+                        @Model.GuestCapacity Guest@(Model.GuestCapacity == 1 ? "" : "s")
+                    </span>
+                </div>
+            </div>
+
+            <!-- About -->
+            <div class="detail-card">
+                <h2 class="detail-section-title">About this Unit</h2>
+
+                <p class="detail-description">
+                    @if (!string.IsNullOrWhiteSpace(Model.Description))
+                    {
+                        @Model.Description
+                    }
+                    else
+                    {
+                        <span>No description available yet.</span>
+                    }
+                </p>
+            </div>
+
+            <!-- Amenities -->
+            <div class="detail-card">
+                <h2 class="detail-section-title">Amenities</h2>
+
+                <div class="detail-amenities">
+                    @if (amenities.Any())
+                    {
+                        foreach (var amenity in amenities)
+                        {
+                            <div class="amenity-item">
+                                <span class="amenity-icon">✓</span>
+                                @amenity
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>No amenities listed yet.</p>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT: Booking + Reviews -->
+        <div class="detail-sidebar">
+
+            <!-- Price + Booking -->
+            <div class="detail-booking-card">
+                <div class="detail-price">
+                    ₱@Model.Amount.ToString("N0") <span>/night</span>
+                </div>
+
+                <div class="detail-rating-row">
+                    @{
+                        var roundedRating = (int)Math.Round(averageRating);
+                    }
+
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        if (i <= roundedRating)
+                        {
+                            <span class="star">★</span>
+                        }
+                        else
+                        {
+                            <span class="star-empty">★</span>
+                        }
+                    }
+
+                    <span class="detail-rating-num">@averageRating.ToString("0.0")</span>
+                    <span class="detail-rating-count">(@reviewCount)</span>
+                </div>
+
+                <a href="/booking/@Model.Property_ID" class="detail-book-btn">Book Now →</a>
+
+                <div class="detail-perks">
+                    <div class="detail-perk">✓ Free cancellation before 24h</div>
+                    <div class="detail-perk">✓ Instant booking confirmation</div>
+                    <div class="detail-perk">✓ 24/7 customer support</div>
+                </div>
+            </div>
+
+            <!-- Give Feedback -->
+            <div class="detail-feedback-card">
+                <h3 class="detail-section-title">Give Feedback</h3>
+
+                <form method="post" action="/property/@Model.Property_ID/feedback">
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="ReviewRate" id="ReviewRate" value="0" />
+
+                    <div class="feedback-stars">
+                        <span class="feedback-star" data-val="1">★</span>
+                        <span class="feedback-star" data-val="2">★</span>
+                        <span class="feedback-star" data-val="3">★</span>
+                        <span class="feedback-star" data-val="4">★</span>
+                        <span class="feedback-star" data-val="5">★</span>
+                    </div>
+
+                    <div class="feedback-input-row">
+                        <input type="text" name="Comment" class="feedback-input" placeholder="Comment" />
+
+                        <button type="submit" class="feedback-submit-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Reviews -->
+            <div class="detail-reviews-card">
+                <div class="reviews-overall">
+                    <span class="reviews-label">Ratings</span>
+
+                    <div class="reviews-score-row">
+                        <span class="reviews-star-big">★</span>
+                        <span class="reviews-score">@averageRating.ToString("0.0")</span>
+                        <span class="reviews-count">(@reviewCount)</span>
+                    </div>
+                </div>
+
+                <div class="reviews-list">
+                    @if (Model.Feedbacks != null && Model.Feedbacks.Any())
+                    {
+                        foreach (var feedback in Model.Feedbacks.OrderByDescending(f => f.Feedback_ID))
+                        {
+                            var firstName = feedback.User?.FirstName ?? "Guest";
+                            var lastName = feedback.User?.LastName ?? "";
+                            var fullName = $"{firstName} {lastName}".Trim();
+
+                            var initials = "";
+                            if (!string.IsNullOrWhiteSpace(firstName))
+                            {
+                                initials += firstName.Substring(0, 1).ToUpper();
+                            }
+
+                            if (!string.IsNullOrWhiteSpace(lastName))
+                            {
+                                initials += lastName.Substring(0, 1).ToUpper();
+                            }
+
+                            if (string.IsNullOrWhiteSpace(initials))
+                            {
+                                initials = "G";
+                            }
+
+                            <div class="review-item">
+                                <div class="review-avatar">@initials</div>
+
+                                <div class="review-body">
+                                    <div class="review-name">@fullName</div>
+
+                                    <div class="review-stars">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= feedback.ReviewRate)
+                                            {
+                                                <span class="star">★</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="star-empty">★</span>
+                                            }
+                                        }
+                                    </div>
+
+                                    <p class="review-text">
+                                        @if (!string.IsNullOrWhiteSpace(feedback.Comment))
+                                        {
+                                            @feedback.Comment
+                                        }
+                                        else
+                                        {
+                                            <span>No comment provided.</span>
+                                        }
+                                    </p>
+                                </div>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="review-text">No reviews yet.</p>
+                    }
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const stars = document.querySelectorAll('.feedback-star');
+        const reviewRateInput = document.getElementById('ReviewRate');
+
+        let selectedRating = 0;
+
+        function updateStars(rating) {
+            stars.forEach((star) => {
+                const value = parseInt(star.dataset.val);
+                star.classList.toggle('active', value <= rating);
+                star.classList.toggle('selected', value <= selectedRating);
+            });
+        }
+
+        stars.forEach((star) => {
+            star.addEventListener('mouseover', () => {
+                const rating = parseInt(star.dataset.val);
+                updateStars(rating);
+            });
+
+            star.addEventListener('mouseleave', () => {
+                updateStars(selectedRating);
+            });
+
+            star.addEventListener('click', () => {
+                selectedRating = parseInt(star.dataset.val);
+                reviewRateInput.value = selectedRating;
+                updateStars(selectedRating);
+            });
+        });
+    </script>
+}
